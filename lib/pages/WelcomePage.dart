@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sportify_app/providers/Auth.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({Key key}) : super(key: key);
@@ -28,7 +30,9 @@ class WelcomePage extends StatelessWidget {
             ),
             Center(
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Provider.of<Auth>(context, listen: false).googleLogin();
+                },
                 child: Ink(
                   color: Colors.blue,
                   child: Padding(

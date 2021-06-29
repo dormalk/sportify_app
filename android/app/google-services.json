@@ -8,6 +8,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:222655596098:android:674fbfab8a2c2223ff4fdb",
+        "android_client_info": {
+          "package_name": "com.example.sportify_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "222655596098-vn9k6pij5674vmahu79m6pk34931kmce.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sportify_app",
+            "certificate_hash": "effe8b64d7583b8686831f07d71de86218e7543c"
+          }
+        },
+        {
+          "client_id": "222655596098-a1srm715ks7seea05fpm0p90pjpcengt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDW9Ux5ao1DaeFj_zKt2850IUl9C7df1m0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "222655596098-a1srm715ks7seea05fpm0p90pjpcengt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:222655596098:android:0c962d3d34e6fe47ff4fdb",
         "android_client_info": {
           "package_name": "com.sportify.my"
