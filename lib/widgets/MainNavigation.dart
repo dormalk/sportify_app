@@ -29,7 +29,7 @@ class _MainNavigationState extends State<MainNavigation> {
           BottomNavigationBarItem(
               icon: Icon(Icons.person),
               backgroundColor: Colors.green,
-              label: 'Road'),
+              label: 'Me'),
           BottomNavigationBarItem(
               icon: Icon(Icons.post_add),
               backgroundColor: Colors.red,
