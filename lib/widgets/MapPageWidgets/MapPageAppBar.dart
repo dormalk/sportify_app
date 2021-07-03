@@ -25,7 +25,6 @@ class _MapPageAppBarState extends State<MapPageAppBar> {
     });
   }
 
-//
   TextButton _buildButton({String text, Function onPress}) {
     return TextButton(
         onPressed: onPress,
