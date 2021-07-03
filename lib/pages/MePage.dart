@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class RoadPage extends StatelessWidget {
-  const RoadPage({Key key}) : super(key: key);
+class MePage extends StatelessWidget {
+  const MePage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

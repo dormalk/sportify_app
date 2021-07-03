@@ -19,4 +19,9 @@ class Auth extends ChangeNotifier {
 
     await FirebaseAuth.instance.signInWithCredential(credential);
   }
+
+  Future logout() async {
+    await FirebaseAuth.instance.signOut();
+    _user = null;
+  }
 }

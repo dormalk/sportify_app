@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sportify_app/pages/FeedPage.dart';
 import 'package:sportify_app/pages/MapPage.dart';
-import 'package:sportify_app/pages/RoadPage.dart';
+import 'package:sportify_app/pages/MePage.dart';
 import 'package:sportify_app/widgets/MapPageWidgets/MapPageAppBar.dart';
+import 'package:sportify_app/widgets/MePageWidgets/MePageAppBar.dart';
 
 class MainNavigation extends StatefulWidget {
   const MainNavigation({Key key}) : super(key: key);
@@ -13,8 +14,8 @@ class MainNavigation extends StatefulWidget {
 
 class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = 0;
-  final _tabs = [MapPage(), RoadPage(), FeedPage()];
-  final _appBars = [MapPageAppBar(), null, null];
+  final _tabs = [MapPage(), MePage(), FeedPage()];
+  final _appBars = [MapPageAppBar(), MePageAppBar(), null];
 
   @override
   Widget build(BuildContext context) {
