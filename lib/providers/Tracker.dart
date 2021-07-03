@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:sportify_app/helper/GeoDemo.dart';
+import 'package:sportify_app/helper/MathCalc.dart';
 
 bool _isDemoRun = false;
 
@@ -17,10 +18,20 @@ class Tracker extends ChangeNotifier {
 
   Position get currentPosition => _currentPosition;
   bool get recordIsActive => _recordIsActive;
-  String get fommatedTimer => '${_secFromStart / 60}:${_secFromStart % 60}';
+  String get fommatedTimer =>
+      '${(_secFromStart / 60).toInt()}:${_secFromStart % 60}';
 
   Tracker() {
     timer = Timer.periodic(Duration(seconds: 1), (Timer t) => _recordTick());
+  }
+
+  double get totalDistanceInKm {
+    double total = 0;
+    for (var i = 0; i < _polylineCoordinates.length - 1; i++) {
+      total += MathCalc.getDistanceFromPosition(
+          _polylineCoordinates[i], _polylineCoordinates[i + 1]);
+    }
+    return total;
   }
 
   Map<PolylineId, Polyline> get polylines {
