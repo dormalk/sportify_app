@@ -3,14 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:sportify_app/helper/GeoDemo.dart';
 import 'package:sportify_app/helper/MathCalc.dart';
-
-bool _isDemoRun = false;
 
 class Tracker extends ChangeNotifier {
   List<Position> record = [];
-  Timer timer;
   List<LatLng> _polylineCoordinates = [];
   int _secFromStart = 0;
   bool _recordIsActive = false;
@@ -21,8 +17,24 @@ class Tracker extends ChangeNotifier {
   String get fommatedTimer =>
       '${(_secFromStart / 60).toInt()}:${_secFromStart % 60}';
 
+  StreamSubscription _positionStream;
+  Timer _timer;
   Tracker() {
-    timer = Timer.periodic(Duration(seconds: 1), (Timer t) => _recordTick());
+    this.initGeoLocation();
+    this.initTimer();
+  }
+
+  void initGeoLocation() {
+    _positionStream = Geolocator.getPositionStream(
+            distanceFilter: 1, desiredAccuracy: LocationAccuracy.high)
+        .listen((Position position) => _recordTick(position));
+  }
+
+  void initTimer() {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      _secFromStart++;
+      notifyListeners();
+    });
   }
 
   double get totalDistanceInKm {
@@ -46,25 +58,11 @@ class Tracker extends ChangeNotifier {
     return polylinesMap;
   }
 
-  Future<Position> getCurrentLocation() {
-    if (_isDemoRun) {
-      Position pos = GeoDemo.getCurrentLocation();
-      return Future<Position>(() => pos);
-    }
-    try {
-      return Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.best);
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  void _recordTick() async {
-    _currentPosition = await getCurrentLocation();
+  void _recordTick(Position newPos) async {
+    _currentPosition = newPos;
     if (_recordIsActive) {
       _polylineCoordinates
           .add(LatLng(_currentPosition.latitude, _currentPosition.longitude));
-      _secFromStart++;
     }
     notifyListeners();
   }
@@ -82,5 +80,10 @@ class Tracker extends ChangeNotifier {
   void clearMyRecord() {
     _polylineCoordinates = [];
     notifyListeners();
+  }
+
+  void dispose() {
+    _positionStream.cancel();
+    _timer.cancel();
   }
 }
