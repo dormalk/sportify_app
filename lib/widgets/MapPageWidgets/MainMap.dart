@@ -17,11 +17,26 @@ class MainMapState extends State<MainMap> {
 
   static Position _currentLocation;
 
-  void _addMarker(String title, LatLng pos, double color) {
+  BitmapDescriptor _myIcon;
+
+  @override
+  void initState() {
+    // BitmapDescriptor.fromAssetImage(
+    //         ImageConfiguration(size: Size(48, 48)), 'images/runner_icon')
+    //     .then((onValue) {
+    //   _myIcon = onValue;
+    // });
+
+    super.initState();
+  }
+
+  void _updateMarker(
+      {String title, LatLng pos, double color, BitmapDescriptor icon}) {
     Marker m = Marker(
         markerId: MarkerId(title),
         infoWindow: InfoWindow(title: title),
-        icon: BitmapDescriptor.defaultMarkerWithHue(color),
+        icon:
+            icon == null ? BitmapDescriptor.defaultMarkerWithHue(color) : icon,
         position: pos);
     setState(() {
       _markers[MarkerId(title)] = m;

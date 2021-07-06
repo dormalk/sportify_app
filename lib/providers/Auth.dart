@@ -1,16 +1,29 @@
 import 'package:flutter/foundation.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart'
+    show FirebaseAuth, GoogleAuthProvider;
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sportify_app/helper/FirestoreIntegrator.dart';
+import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sportify_app/modals/User.dart';
 
 class Auth extends ChangeNotifier {
   final _googleSignIn = GoogleSignIn();
-  GoogleSignInAccount _user;
-  GoogleSignInAccount get user => _user;
+  User _user;
+  User get user => _user;
 
   Future googleLogin() async {
     final googleUser = await _googleSignIn.signIn();
     if (googleUser == null) return;
-    _user = googleUser;
+    DocumentSnapshot<Object> res =
+        await FirestoreIntegrator.usersREST.getUser(googleUser.id);
+
+    if (res.exists) {
+      _user = User.fromJson(res.data());
+    } else {
+      //create one from google user
+      _user = User.fromJson();
+    }
 
     final googleAuth = await googleUser.authentication;
 
