@@ -5,6 +5,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:sportify_app/helper/MathCalc.dart';
 
+String _parseToSrt(int val) {
+  if (val < 10)
+    return '0${val}';
+  else
+    return '${val}';
+}
+
 class Tracker extends ChangeNotifier {
   List<Position> record = [];
   List<LatLng> _polylineCoordinates = [];
@@ -15,7 +22,7 @@ class Tracker extends ChangeNotifier {
   Position get currentPosition => _currentPosition;
   bool get recordIsActive => _recordIsActive;
   String get fommatedTimer =>
-      '${(_secFromStart / 60).toInt()}:${_secFromStart % 60}';
+      '${_parseToSrt((_secFromStart / 60).toInt())}:${_parseToSrt(_secFromStart % 60)}';
 
   StreamSubscription _positionStream;
   Timer _timer;

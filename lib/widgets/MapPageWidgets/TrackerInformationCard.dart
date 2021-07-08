@@ -24,6 +24,38 @@ class _TrackerInformationCardState extends State<TrackerInformationCard> {
     });
   }
 
+  Widget _buildDurationCol() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(flex: 1, child: Container()),
+        Expanded(
+          flex: 3,
+          child: Container(
+            child: Center(
+                child: Text(
+              _timeFromStart,
+              style: TextStyle(fontSize: 40),
+            )),
+          ),
+        ),
+        Expanded(flex: 1, child: Container())
+      ],
+    );
+  }
+
+  Widget _buildCardInfo() {
+    return Column(
+      children: [
+        _buildDurationCol(),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //   children: [Text(_timeFromStart), Text(_distance)],
+        // )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     _listen();
@@ -31,14 +63,7 @@ class _TrackerInformationCardState extends State<TrackerInformationCard> {
       color: Colors.white,
       child: Padding(
         padding: EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text(_timeFromStart), Text(_distance)],
-            )
-          ],
-        ),
+        child: _buildCardInfo(),
       ),
     );
   }
