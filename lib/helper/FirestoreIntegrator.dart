@@ -6,7 +6,7 @@ class _UsersREST {
   CollectionReference _users = FirebaseFirestore.instance.collection('users');
 
   Future<void> addUser(User userToAdd) {
-    return _users.add(userToAdd.toJson());
+    return _users.doc(userToAdd.id).set(userToAdd.toJson());
   }
 
   Future<void> updateUser(User userToUpdate) {

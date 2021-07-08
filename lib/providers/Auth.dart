@@ -17,12 +17,17 @@ class Auth extends ChangeNotifier {
     if (googleUser == null) return;
     DocumentSnapshot<Object> res =
         await FirestoreIntegrator.usersREST.getUser(googleUser.id);
-
     if (res.exists) {
       _user = User.fromJson(res.data());
     } else {
-      //create one from google user
-      _user = User.fromJson();
+      _user = User(
+          displayName: googleUser.displayName,
+          id: googleUser.id,
+          email: googleUser.email,
+          photoUrl: googleUser.photoUrl,
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now());
+      await FirestoreIntegrator.usersREST.addUser(_user);
     }
 
     final googleAuth = await googleUser.authentication;
