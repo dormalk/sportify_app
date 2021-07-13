@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sportify_app/providers/Tracker.dart';
 import 'package:provider/provider.dart';
+import 'package:sportify_app/shared/Labels.dart';
 
 class TrackerInformationCard extends StatefulWidget {
   const TrackerInformationCard({Key key}) : super(key: key);
@@ -12,6 +13,7 @@ class TrackerInformationCard extends StatefulWidget {
 class _TrackerInformationCardState extends State<TrackerInformationCard> {
   String _timeFromStart;
   String _distance;
+  String _acceleration;
 
   void _listen() {
     setState(() {
@@ -20,6 +22,9 @@ class _TrackerInformationCardState extends State<TrackerInformationCard> {
 
       _distance = Provider.of<Tracker>(context, listen: true)
           .totalDistanceInKm
+          .toStringAsFixed(2);
+      _acceleration = Provider.of<Tracker>(context, listen: true)
+          .acceleration_KM_HR
           .toStringAsFixed(2);
     });
   }
@@ -33,9 +38,14 @@ class _TrackerInformationCardState extends State<TrackerInformationCard> {
           flex: 3,
           child: Container(
             child: Center(
-                child: Text(
-              _timeFromStart,
-              style: TextStyle(fontSize: 40),
+                child: Column(
+              children: [
+                Text(
+                  _timeFromStart,
+                  style: TextStyle(fontSize: 40),
+                ),
+                Text(Labels.duration)
+              ],
             )),
           ),
         ),
@@ -44,15 +54,46 @@ class _TrackerInformationCardState extends State<TrackerInformationCard> {
     );
   }
 
+  Widget _buildSecondRowCardInfo() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(flex: 1, child: Container()),
+        Expanded(
+          flex: 1,
+          child: Container(
+            child: Column(
+              children: [
+                Text(
+                  _acceleration,
+                  style: TextStyle(fontSize: 25),
+                ),
+                Text(Labels.acceleration)
+              ],
+            ),
+          ),
+        ),
+        Expanded(
+            flex: 1,
+            child: Container(
+              child: Column(
+                children: [
+                  Text(
+                    _distance,
+                    style: TextStyle(fontSize: 25),
+                  ),
+                  Text(Labels.distance)
+                ],
+              ),
+            ))
+      ],
+    );
+  }
+
   Widget _buildCardInfo() {
     return Column(
-      children: [
-        _buildDurationCol(),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //   children: [Text(_timeFromStart), Text(_distance)],
-        // )
-      ],
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [_buildDurationCol(), _buildSecondRowCardInfo()],
     );
   }
 

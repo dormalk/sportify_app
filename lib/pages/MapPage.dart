@@ -39,9 +39,10 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
     _listen();
     return Container(
       child: Stack(children: [
-        _buildLayer(child: MainMap(), height: _recordIsActive ? 0.8 : 1.0),
+        _buildLayer(child: MainMap(), height: _recordIsActive ? 0.75 : 1.0),
         _buildLayer(
-            child: TrackerInformationCard(), height: _recordIsActive ? 0.2 : 0),
+            child: TrackerInformationCard(),
+            height: _recordIsActive ? 0.25 : 0),
       ]),
     );
   }
