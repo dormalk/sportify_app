@@ -21,7 +21,10 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
       duration: Duration(seconds: 1),
       vsync: this,
       child: Container(
-        height: MediaQuery.of(context).size.height * height,
+        height: (MediaQuery.of(context).size.height -
+                Scaffold.of(context).appBarMaxHeight -
+                kBottomNavigationBarHeight) *
+            height,
         child: child,
       ),
     );
@@ -38,11 +41,11 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     _listen();
     return Container(
-      child: Stack(children: [
-        _buildLayer(child: MainMap(), height: _recordIsActive ? 0.75 : 1.0),
+      child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
         _buildLayer(
             child: TrackerInformationCard(),
-            height: _recordIsActive ? 0.25 : 0),
+            height: _recordIsActive ? 0.30 : 0),
+        _buildLayer(child: MainMap(), height: _recordIsActive ? 0.7 : 1.0),
       ]),
     );
   }

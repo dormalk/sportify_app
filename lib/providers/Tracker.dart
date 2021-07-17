@@ -17,30 +17,18 @@ class Tracker extends ChangeNotifier {
   List<LatLng> _polylineCoordinates = [];
   int _secFromStart = 0;
   bool _recordIsActive = false;
+  double get _VO2 => (0.2 * velocity) + 3.5;
+  Position _currentPosition;
 
+  double get caloriesBurn => 4.86 
+  double get velocity => _currentPosition.speed;
   Position get currentPosition => _currentPosition;
   bool get recordIsActive => _recordIsActive;
   String get fommatedTimer =>
-      '${_parseToSrt((_secFromStart / 60).toInt())}:${_parseToSrt(_secFromStart % 60)}';
-
-  double get acceleration_KM_HR {
-    LatLng _prev = LatLng(_prevPosition.latitude, _prevPosition.longitude);
-    LatLng _curr =
-        LatLng(_currentPosition.latitude, _currentPosition.longitude);
-
-    double deltaPosition = MathCalc.getDistanceFromPosition(_prev, _curr);
-    if (deltaPosition != 0.0) {
-      return deltaPosition / 360;
-    } else {
-      return 0;
-    }
-  }
+      '${_parseToSrt((_secFromStart ~/ 60).toInt())}:${_parseToSrt(_secFromStart % 60)}';
 
   StreamSubscription _positionStream;
   Timer _timer;
-
-  Position _prevPosition = null;
-  Position _currentPosition = null;
 
   Tracker() {
     this.initGeoLocation();
@@ -82,14 +70,7 @@ class Tracker extends ChangeNotifier {
   }
 
   void _recordTick(Position newPos) async {
-    if (_prevPosition == null) {
-      _prevPosition = newPos;
-      _currentPosition = newPos;
-    } else {
-      _prevPosition = _currentPosition;
-      _currentPosition = newPos;
-    }
-
+    _currentPosition = newPos;
     if (_recordIsActive) {
       _polylineCoordinates
           .add(LatLng(_currentPosition.latitude, _currentPosition.longitude));

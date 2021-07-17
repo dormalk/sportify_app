@@ -13,7 +13,7 @@ class TrackerInformationCard extends StatefulWidget {
 class _TrackerInformationCardState extends State<TrackerInformationCard> {
   String _timeFromStart;
   String _distance;
-  String _acceleration;
+  String _velocity;
 
   void _listen() {
     setState(() {
@@ -23,8 +23,8 @@ class _TrackerInformationCardState extends State<TrackerInformationCard> {
       _distance = Provider.of<Tracker>(context, listen: true)
           .totalDistanceInKm
           .toStringAsFixed(2);
-      _acceleration = Provider.of<Tracker>(context, listen: true)
-          .acceleration_KM_HR
+      _velocity = Provider.of<Tracker>(context, listen: true)
+          .velocity
           .toStringAsFixed(2);
     });
   }
@@ -65,10 +65,10 @@ class _TrackerInformationCardState extends State<TrackerInformationCard> {
             child: Column(
               children: [
                 Text(
-                  _acceleration,
+                  _velocity,
                   style: TextStyle(fontSize: 25),
                 ),
-                Text(Labels.acceleration)
+                Text(Labels.velocity)
               ],
             ),
           ),
