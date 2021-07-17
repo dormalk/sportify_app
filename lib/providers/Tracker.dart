@@ -12,6 +12,9 @@ String _parseToSrt(int val) {
     return '${val}';
 }
 
+final double REPIRATORY_EXCHANGE_RATIO = 4.83;
+final double MASS_KG = 70;
+
 class Tracker extends ChangeNotifier {
   List<Position> record = [];
   List<LatLng> _polylineCoordinates = [];
@@ -19,8 +22,8 @@ class Tracker extends ChangeNotifier {
   bool _recordIsActive = false;
   double get _VO2 => (0.2 * velocity) + 3.5;
   Position _currentPosition;
-
-  double get caloriesBurn => 4.86 
+  double totalCaloriesBurn = 0;
+  double get _caloriesBurn => REPIRATORY_EXCHANGE_RATIO * MASS_KG * _VO2 / 1000;
   double get velocity => _currentPosition.speed;
   Position get currentPosition => _currentPosition;
   bool get recordIsActive => _recordIsActive;
@@ -44,6 +47,7 @@ class Tracker extends ChangeNotifier {
   void initTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       _secFromStart++;
+      totalCaloriesBurn += _caloriesBurn;
       notifyListeners();
     });
   }
@@ -81,6 +85,7 @@ class Tracker extends ChangeNotifier {
   void startRecord() {
     _recordIsActive = true;
     _secFromStart = 0;
+    totalCaloriesBurn = 0;
   }
 
   void stopRecord() {

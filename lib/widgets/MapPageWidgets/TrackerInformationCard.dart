@@ -14,6 +14,7 @@ class _TrackerInformationCardState extends State<TrackerInformationCard> {
   String _timeFromStart;
   String _distance;
   String _velocity;
+  String _caloriesBurn;
 
   void _listen() {
     setState(() {
@@ -26,7 +27,28 @@ class _TrackerInformationCardState extends State<TrackerInformationCard> {
       _velocity = Provider.of<Tracker>(context, listen: true)
           .velocity
           .toStringAsFixed(2);
+      _caloriesBurn = Provider.of<Tracker>(context, listen: true)
+          .totalCaloriesBurn
+          .toStringAsFixed(2);
     });
+  }
+
+  Widget _buildCol({int flex, String value, String label, double fontSize}) {
+    return Expanded(
+      flex: flex,
+      child: Container(
+        child: Center(
+            child: Column(
+          children: [
+            Text(
+              value,
+              style: TextStyle(fontSize: fontSize),
+            ),
+            Text(label)
+          ],
+        )),
+      ),
+    );
   }
 
   Widget _buildDurationCol() {
@@ -34,21 +56,11 @@ class _TrackerInformationCardState extends State<TrackerInformationCard> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(flex: 1, child: Container()),
-        Expanded(
-          flex: 3,
-          child: Container(
-            child: Center(
-                child: Column(
-              children: [
-                Text(
-                  _timeFromStart,
-                  style: TextStyle(fontSize: 40),
-                ),
-                Text(Labels.duration)
-              ],
-            )),
-          ),
-        ),
+        _buildCol(
+            flex: 3,
+            value: _timeFromStart,
+            label: Labels.duration,
+            fontSize: 40),
         Expanded(flex: 1, child: Container())
       ],
     );
@@ -58,7 +70,19 @@ class _TrackerInformationCardState extends State<TrackerInformationCard> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Expanded(flex: 1, child: Container()),
+        Expanded(
+            flex: 1,
+            child: Container(
+              child: Column(
+                children: [
+                  Text(
+                    _caloriesBurn,
+                    style: TextStyle(fontSize: 25),
+                  ),
+                  Text(Labels.calories)
+                ],
+              ),
+            )),
         Expanded(
           flex: 1,
           child: Container(
