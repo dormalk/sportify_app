@@ -70,46 +70,15 @@ class _TrackerInformationCardState extends State<TrackerInformationCard> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Expanded(
+        _buildCol(
             flex: 1,
-            child: Container(
-              child: Column(
-                children: [
-                  Text(
-                    _caloriesBurn,
-                    style: TextStyle(fontSize: 25),
-                  ),
-                  Text(Labels.calories)
-                ],
-              ),
-            )),
-        Expanded(
-          flex: 1,
-          child: Container(
-            child: Column(
-              children: [
-                Text(
-                  _velocity,
-                  style: TextStyle(fontSize: 25),
-                ),
-                Text(Labels.velocity)
-              ],
-            ),
-          ),
-        ),
-        Expanded(
-            flex: 1,
-            child: Container(
-              child: Column(
-                children: [
-                  Text(
-                    _distance,
-                    style: TextStyle(fontSize: 25),
-                  ),
-                  Text(Labels.distance)
-                ],
-              ),
-            ))
+            value: _caloriesBurn,
+            label: Labels.calories,
+            fontSize: 25),
+        _buildCol(
+            flex: 1, value: _velocity, label: Labels.velocity, fontSize: 25),
+        _buildCol(
+            flex: 1, value: _distance, label: Labels.distance, fontSize: 25),
       ],
     );
   }
