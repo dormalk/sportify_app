@@ -1,9 +1,12 @@
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'dart:io';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:sportify_app/providers/Tracker.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:sportify_app/shared/widgets/BitmapAvater.dart';
 
 class MainMap extends StatefulWidget {
   @override
@@ -21,22 +24,31 @@ class MainMapState extends State<MainMap> {
 
   @override
   void initState() {
-    // BitmapDescriptor.fromAssetImage(
-    //         ImageConfiguration(size: Size(48, 48)), 'images/runner_icon')
-    //     .then((onValue) {
-    //   _myIcon = onValue;
-    // });
-
+    print('do thiissss');
+    _initSelfIcon();
     super.initState();
   }
 
-  void _updateMarker(
-      {String title, LatLng pos, double color, BitmapDescriptor icon}) {
+  void _initSelfIcon() async {
+    try {
+      final File _avater = await DefaultCacheManager()
+          .getSingleFile(FirebaseAuth.instance.currentUser.photoURL);
+      BitmapDescriptor myIconTemp =
+          await convertImageFileToCustomBitmapDescriptor(_avater);
+      setState(() {
+        _myIcon = myIconTemp;
+      });
+    } catch (e) {
+      print('error occured');
+      print(e);
+    }
+  }
+
+  void _upsertMarker(
+      {String title, LatLng pos, double huv, BitmapDescriptor icon}) {
     Marker m = Marker(
         markerId: MarkerId(title),
-        infoWindow: InfoWindow(title: title),
-        icon:
-            icon == null ? BitmapDescriptor.defaultMarkerWithHue(color) : icon,
+        icon: icon == null ? BitmapDescriptor.defaultMarkerWithHue(huv) : icon,
         position: pos);
     setState(() {
       _markers[MarkerId(title)] = m;
@@ -50,6 +62,12 @@ class MainMapState extends State<MainMap> {
         target: LatLng(pos.latitude, pos.longitude),
         zoom: 17,
       )));
+    }
+    if (_myIcon != null) {
+      _upsertMarker(
+          title: 'self',
+          pos: LatLng(pos.latitude, pos.longitude),
+          icon: _myIcon);
     }
     setState(() {
       _currentLocation = pos;

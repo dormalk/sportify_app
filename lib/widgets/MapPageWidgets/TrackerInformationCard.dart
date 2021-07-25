@@ -18,18 +18,20 @@ class _TrackerInformationCardState extends State<TrackerInformationCard> {
 
   void _listen() {
     setState(() {
-      _timeFromStart =
-          Provider.of<Tracker>(context, listen: true).fommatedTimer;
+      try {
+        _timeFromStart =
+            Provider.of<Tracker>(context, listen: true).fommatedTimer;
 
-      _distance = Provider.of<Tracker>(context, listen: true)
-          .totalDistanceInKm
-          .toStringAsFixed(2);
-      _velocity = Provider.of<Tracker>(context, listen: true)
-          .velocity
-          .toStringAsFixed(2);
-      _caloriesBurn = Provider.of<Tracker>(context, listen: true)
-          .totalCaloriesBurn
-          .toStringAsFixed(2);
+        _distance = Provider.of<Tracker>(context, listen: true)
+            .totalDistanceInKm
+            .toStringAsFixed(2);
+        _velocity = Provider.of<Tracker>(context, listen: true)
+            .velocity
+            .toStringAsFixed(2);
+        _caloriesBurn = Provider.of<Tracker>(context, listen: true)
+            .totalCaloriesBurn
+            .toStringAsFixed(2);
+      } catch (e) {}
     });
   }
 

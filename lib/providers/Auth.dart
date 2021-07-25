@@ -15,27 +15,29 @@ class Auth extends ChangeNotifier {
   Future googleLogin() async {
     final googleUser = await _googleSignIn.signIn();
     if (googleUser == null) return;
+    final googleAuth = await googleUser.authentication;
+    updateCurrentUser(FirebaseAuth.instance.currentUser);
+    final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+
+    await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  void updateCurrentUser(var googleUser) async {
     DocumentSnapshot<Object> res =
-        await FirestoreIntegrator.usersREST.getUser(googleUser.id);
+        await FirestoreIntegrator.usersREST.getUser(googleUser.uid);
     if (res.exists) {
       _user = User.fromJson(res.data());
     } else {
       _user = User(
           displayName: googleUser.displayName,
-          id: googleUser.id,
+          id: googleUser.uid,
           email: googleUser.email,
-          photoUrl: googleUser.photoUrl,
+          photoUrl: googleUser.photoURL,
           createdAt: DateTime.now(),
           updatedAt: DateTime.now());
       await FirestoreIntegrator.usersREST.addUser(_user);
     }
-
-    final googleAuth = await googleUser.authentication;
-
-    final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
-
-    await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
   Future logout() async {

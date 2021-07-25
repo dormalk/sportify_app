@@ -13,8 +13,6 @@ void main() async {
   runApp(MyApp());
 }
 
-bool isDemo = false;
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -33,22 +31,23 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: isDemo
-            ? MainNavigation()
-            : StreamBuilder(
-                stream: FirebaseAuth.instance.authStateChanges(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (snapshot.hasData) {
-                    return MainNavigation();
-                  } else {
-                    return WelcomePage();
-                  }
-                },
-              ),
+        home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasData) {
+              Provider.of<Auth>(context, listen: false)
+                  .updateCurrentUser(FirebaseAuth.instance.currentUser);
+
+              return MainNavigation();
+            } else {
+              return WelcomePage();
+            }
+          },
+        ),
       ),
     );
   }
