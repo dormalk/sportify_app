@@ -5,6 +5,8 @@ import 'package:sportify_app/pages/MePage.dart';
 import 'package:sportify_app/widgets/MapPageWidgets/MapPageAppBar.dart';
 import 'package:sportify_app/widgets/MePageWidgets/MePageAppBar.dart';
 
+import 'MapPageWidgets/FloatingStartButton.dart';
+
 class MainNavigation extends StatefulWidget {
   const MainNavigation({Key key}) : super(key: key);
 
@@ -20,6 +22,7 @@ class _MainNavigationState extends State<MainNavigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: _currentIndex == 0 ? FloatingStartButton() : null,
       body: _tabs[_currentIndex],
       appBar: _appBars[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
