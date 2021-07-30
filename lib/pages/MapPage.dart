@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sportify_app/widgets/MapPageWidgets/SliderCloseButton.dart';
 import '../widgets/MapPageWidgets/MainMap.dart';
 import '../widgets/MapPageWidgets/TrackerInformationCard.dart';
 import 'package:flutter/foundation.dart';
@@ -40,13 +41,19 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     _listen();
-    return Container(
-      child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-        _buildLayer(
-            child: TrackerInformationCard(),
-            height: _recordIsActive ? 0.30 : 0),
-        _buildLayer(child: MainMap(), height: _recordIsActive ? 0.7 : 1.0),
-      ]),
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        Container(
+          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+            _buildLayer(
+                child: TrackerInformationCard(),
+                height: _recordIsActive ? 0.30 : 0),
+            _buildLayer(child: MainMap(), height: _recordIsActive ? 0.7 : 1.0),
+          ]),
+        ),
+        SliderCloseButton(),
+      ],
     );
   }
 }
