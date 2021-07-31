@@ -1,22 +1,17 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class MapPageAppBar extends StatefulWidget implements PreferredSizeWidget {
+
+class MapPageAppBar extends StatelessWidget implements PreferredSizeWidget {
   MapPageAppBar({Key key})
       : preferredSize = Size.fromHeight(kToolbarHeight),
         super(key: key);
 
   @override
-  final Size preferredSize; // default is 56.0
-
-  @override
-  _MapPageAppBarState createState() => _MapPageAppBarState();
-}
-
-class _MapPageAppBarState extends State<MapPageAppBar> {
+  final Size preferredSize;
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      elevation: 0,
       title: const Text('Sportify'),
       automaticallyImplyLeading: false,
     );

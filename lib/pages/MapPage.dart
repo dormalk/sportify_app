@@ -14,7 +14,7 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
-  bool _recordIsActive = false;
+  double _topOffset = 0;
 
   Widget _buildLayer({Widget child, double height}) {
     return AnimatedSize(
@@ -23,7 +23,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
       vsync: this,
       child: Container(
         height: (MediaQuery.of(context).size.height -
-                Scaffold.of(context).appBarMaxHeight -
+                _topOffset -
                 kBottomNavigationBarHeight) *
             height,
         child: child,
@@ -31,16 +31,13 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
     );
   }
 
-  void _listen() {
-    setState(() {
-      _recordIsActive =
-          Provider.of<Tracker>(context, listen: true).recordIsActive;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    _listen();
+    bool _recordIsActive =
+        Provider.of<Tracker>(context, listen: true).recordIsActive;
+    _topOffset = _recordIsActive
+        ? MediaQuery.of(context).padding.top
+        : Scaffold.of(context).appBarMaxHeight;
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [

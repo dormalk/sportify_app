@@ -6,6 +6,8 @@ import 'package:sportify_app/widgets/MapPageWidgets/MapPageAppBar.dart';
 import 'package:sportify_app/widgets/MePageWidgets/MePageAppBar.dart';
 
 import 'MapPageWidgets/FloatingStartButton.dart';
+import 'package:sportify_app/providers/Tracker.dart';
+import 'package:provider/provider.dart';
 
 class MainNavigation extends StatefulWidget {
   const MainNavigation({Key key}) : super(key: key);
@@ -17,10 +19,17 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = 0;
   final _tabs = [MapPage(), MePage(), FeedPage()];
-  final _appBars = [MapPageAppBar(), MePageAppBar(), null];
 
   @override
   Widget build(BuildContext context) {
+    bool _recordIsActive =
+        Provider.of<Tracker>(context, listen: true).recordIsActive;
+    final _appBars = [
+      !_recordIsActive ? MapPageAppBar() : null,
+      MePageAppBar(),
+      null
+    ];
+
     return Scaffold(
       floatingActionButton: _currentIndex == 0 ? FloatingStartButton() : null,
       body: _tabs[_currentIndex],
