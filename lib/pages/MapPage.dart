@@ -20,10 +20,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
       duration: Duration(seconds: 1),
       vsync: this,
       child: Container(
-        height: (MediaQuery.of(context).size.height -
-                Scaffold.of(context).appBarMaxHeight -
-                kBottomNavigationBarHeight) *
-            height,
+        height: MediaQuery.of(context).size.height * height,
         child: child,
       ),
     );
@@ -37,7 +34,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
-        Container(
+        Expanded(
           child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
             _recordIsActive
                 ? SizedBox(
@@ -47,7 +44,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
             _buildLayer(
                 child: TrackerInformationCard(),
                 height: _recordIsActive ? 0.30 : 0),
-            _buildLayer(child: MainMap(), height: _recordIsActive ? 0.7 : 1.0),
+            Expanded(child: MainMap()),
           ]),
         ),
         SliderCloseButton(),

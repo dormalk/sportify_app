@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sportify_app/providers/Tracker.dart';
 import 'package:provider/provider.dart';
 import 'package:slide_button/slide_button.dart';
+import 'package:sportify_app/shared/Labels.dart';
 
 class SliderCloseButton extends StatefulWidget {
   SliderCloseButton({Key key});
@@ -24,10 +25,15 @@ class _SliderCloseButtonState extends State<SliderCloseButton> {
               height: 50,
               borderRadius: 0.0,
               backgroundColor: Colors.transparent,
-              slidingChild: Center(
-                child: Text(
-                  "Slide To Stop Activity",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+              slidingChild: Container(
+                child: Center(
+                  child: Text(
+                    Labels.SLIDE_STOP_ACTIVITY,
+                    overflow: TextOverflow.fade,
+                    softWrap: false,
+                    maxLines: 1,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  ),
                 ),
               ),
               slidingBarColor: Colors.black.withOpacity(0.2),
