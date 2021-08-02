@@ -34,29 +34,31 @@ class _MainNavigationState extends State<MainNavigation> {
       floatingActionButton: _currentIndex == 0 ? FloatingStartButton() : null,
       body: _tabs[_currentIndex],
       appBar: _appBars[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        type: BottomNavigationBarType.shifting,
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.map),
-              backgroundColor: Colors.blue,
-              label: 'Map'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              backgroundColor: Colors.green,
-              label: 'Me'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.post_add),
-              backgroundColor: Colors.red,
-              label: 'Feed'),
-        ],
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-      ),
+      bottomNavigationBar: _recordIsActive
+          ? null
+          : BottomNavigationBar(
+              currentIndex: _currentIndex,
+              type: BottomNavigationBarType.shifting,
+              items: [
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.map),
+                    backgroundColor: Colors.blue,
+                    label: 'Map'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.person),
+                    backgroundColor: Colors.green,
+                    label: 'Me'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.post_add),
+                    backgroundColor: Colors.red,
+                    label: 'Feed'),
+              ],
+              onTap: (index) {
+                setState(() {
+                  _currentIndex = index;
+                });
+              },
+            ),
     );
   }
 }
