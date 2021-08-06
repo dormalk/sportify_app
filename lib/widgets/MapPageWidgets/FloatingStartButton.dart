@@ -2,15 +2,19 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sportify_app/providers/Tracker.dart';
 import 'package:provider/provider.dart';
+import 'package:sportify_app/widgets/MapPageWidgets/CreateActivityModal.dart';
 
-class FloatingStartButton extends StatefulWidget {
+class FloatingStartButton extends StatelessWidget {
   FloatingStartButton({Key key});
 
-  @override
-  _FloatingStartButtonState createState() => _FloatingStartButtonState();
-}
+  void _showDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CreateActivityModal();
+        });
+  }
 
-class _FloatingStartButtonState extends State<FloatingStartButton> {
   @override
   Widget build(BuildContext context) {
     bool _recordIsActive =
@@ -18,8 +22,7 @@ class _FloatingStartButtonState extends State<FloatingStartButton> {
     return !_recordIsActive
         ? FloatingActionButton(
             child: Icon(Icons.play_arrow),
-            onPressed: () =>
-                Provider.of<Tracker>(context, listen: false).startRecord())
+            onPressed: () => _showDialog(context))
         : Container();
   }
 }

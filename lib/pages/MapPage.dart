@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sportify_app/widgets/MapPageWidgets/CreateActivityModal.dart';
 import 'package:sportify_app/widgets/MapPageWidgets/SliderCloseButton.dart';
 import '../widgets/MapPageWidgets/MainMap.dart';
 import '../widgets/MapPageWidgets/TrackerInformationCard.dart';
