@@ -35,7 +35,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
-        Expanded(
+        Container(
           child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
             _recordIsActive
                 ? SizedBox(
