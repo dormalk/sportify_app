@@ -29,14 +29,14 @@ class CreateActivityModal extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _buildIconButton(
-              icon: Icons.directions_bike,
+              icon: mapActivityIcon[ActivityType.Bike],
               onPress: () {
                 Provider.of<Tracker>(context, listen: false)
                     .startRecord(ActivityType.Bike);
                 Navigator.of(context).pop();
               }),
           _buildIconButton(
-              icon: Icons.directions_run,
+              icon: mapActivityIcon[ActivityType.Run],
               onPress: () {
                 Provider.of<Tracker>(context, listen: false)
                     .startRecord(ActivityType.Run);

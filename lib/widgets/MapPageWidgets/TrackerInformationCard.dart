@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sportify_app/modals/Activity.dart';
 import 'package:sportify_app/providers/Tracker.dart';
 import 'package:provider/provider.dart';
 import 'package:sportify_app/shared/Labels.dart';
@@ -15,6 +16,17 @@ class _TrackerInformationCardState extends State<TrackerInformationCard> {
   String _distance;
   String _velocity;
   String _caloriesBurn;
+
+  IconData activityIcon;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    activityIcon = mapActivityIcon[Provider.of<Tracker>(context, listen: false)
+        .currentActivity
+        .activityType];
+    super.initState();
+  }
 
   void _listen() {
     setState(() {
@@ -57,9 +69,14 @@ class _TrackerInformationCardState extends State<TrackerInformationCard> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Expanded(flex: 1, child: Container()),
+        Expanded(
+            flex: 1,
+            child: Icon(
+              activityIcon,
+              size: 40,
+            )),
         _buildCol(
-            flex: 3,
+            flex: 2,
             value: _timeFromStart,
             label: Labels.duration,
             fontSize: 40),
