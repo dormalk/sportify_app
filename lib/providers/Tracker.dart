@@ -4,6 +4,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:sportify_app/helper/MathCalc.dart';
+import 'package:sportify_app/modals/Activity.dart';
+
+import '../modals/Activity.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 String _parseToSrt(int val) {
   if (val < 10)
@@ -16,8 +20,8 @@ final double REPIRATORY_EXCHANGE_RATIO = 4.83;
 final double MASS_KG = 70;
 
 class Tracker extends ChangeNotifier {
-  List<Position> record = [];
-  List<LatLng> _polylineCoordinates = [];
+  Activity currentActivity;
+
   int _secFromStart = 0;
   bool _recordIsActive = false;
   double get _VO2 => (0.2 * velocity) + 3.5;
@@ -54,9 +58,11 @@ class Tracker extends ChangeNotifier {
 
   double get totalDistanceInKm {
     double total = 0;
-    for (var i = 0; i < _polylineCoordinates.length - 1; i++) {
+    if (currentActivity == null) return 0;
+    for (var i = 0; i < currentActivity.polylineCoordinates.length - 1; i++) {
       total += MathCalc.getDistanceFromPosition(
-          _polylineCoordinates[i], _polylineCoordinates[i + 1]);
+          currentActivity.polylineCoordinates[i],
+          currentActivity.polylineCoordinates[i + 1]);
     }
     return total;
   }
@@ -67,7 +73,8 @@ class Tracker extends ChangeNotifier {
     Polyline polyline = Polyline(
         polylineId: id,
         color: Colors.red,
-        points: _polylineCoordinates,
+        points:
+            currentActivity == null ? [] : currentActivity.polylineCoordinates,
         width: 5);
     polylinesMap[id] = polyline;
     return polylinesMap;
@@ -76,13 +83,16 @@ class Tracker extends ChangeNotifier {
   void _recordTick(Position newPos) async {
     _currentPosition = newPos;
     if (_recordIsActive) {
-      _polylineCoordinates
+      currentActivity.polylineCoordinates
           .add(LatLng(_currentPosition.latitude, _currentPosition.longitude));
     }
     notifyListeners();
   }
 
-  void startRecord() {
+  void startRecord(ActivityType activityType) {
+    currentActivity = Activity(
+        activityType: activityType,
+        ownerId: FirebaseAuth.instance.currentUser.uid);
     _recordIsActive = true;
     _secFromStart = 0;
     totalCaloriesBurn = 0;
@@ -94,7 +104,7 @@ class Tracker extends ChangeNotifier {
   }
 
   void clearMyRecord() {
-    _polylineCoordinates = [];
+    currentActivity.polylineCoordinates = [];
     notifyListeners();
   }
 
