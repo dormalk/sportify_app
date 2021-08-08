@@ -14,6 +14,8 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
+  bool _recordIsActive = false;
+
   Widget _buildLayer({Widget child, double height}) {
     return Container(
       height: MediaQuery.of(context).size.height * height,
@@ -21,9 +23,13 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
     );
   }
 
+  Widget _showWhenRecordActive(Widget child) {
+    return _recordIsActive ? child : Container();
+  }
+
   @override
   Widget build(BuildContext context) {
-    bool _recordIsActive =
+    this._recordIsActive =
         Provider.of<Tracker>(context, listen: true).recordIsActive;
     return Stack(
       alignment: Alignment.bottomCenter,
@@ -31,16 +37,12 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
         Container(
           height: MediaQuery.of(context).size.height,
           child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            _recordIsActive
-                ? SizedBox(
-                    height: MediaQuery.of(context).padding.top,
-                  )
-                : Container(),
-            _recordIsActive
-                ? _buildLayer(
-                    child: TrackerInformationCard(),
-                    height: _recordIsActive ? 0.30 : 0)
-                : Container(),
+            _showWhenRecordActive(SizedBox(
+              height: MediaQuery.of(context).padding.top,
+            )),
+            _showWhenRecordActive(_buildLayer(
+                child: TrackerInformationCard(),
+                height: _recordIsActive ? 0.30 : 0)),
             Expanded(child: MainMap()),
           ]),
         ),
