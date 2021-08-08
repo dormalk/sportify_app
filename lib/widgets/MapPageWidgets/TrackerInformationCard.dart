@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:sportify_app/modals/Activity.dart';
 import 'package:sportify_app/providers/Tracker.dart';
@@ -17,14 +19,13 @@ class _TrackerInformationCardState extends State<TrackerInformationCard> {
   String _velocity;
   String _caloriesBurn;
 
-  IconData activityIcon;
+  IconData _activityIcon;
 
   @override
   void initState() {
-    // TODO: implement initState
-    activityIcon = mapActivityIcon[Provider.of<Tracker>(context, listen: false)
+    _activityIcon = mapActivityIcon[Provider.of<Tracker>(context, listen: false)
         .currentActivity
-        .activityType];
+        ?.activityType];
     super.initState();
   }
 
@@ -72,7 +73,7 @@ class _TrackerInformationCardState extends State<TrackerInformationCard> {
         Expanded(
             flex: 1,
             child: Icon(
-              activityIcon,
+              _activityIcon,
               size: 40,
             )),
         _buildCol(

@@ -15,14 +15,9 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
   Widget _buildLayer({Widget child, double height}) {
-    return AnimatedSize(
-      curve: Curves.fastOutSlowIn,
-      duration: Duration(seconds: 1),
-      vsync: this,
-      child: Container(
-        height: MediaQuery.of(context).size.height * height,
-        child: child,
-      ),
+    return Container(
+      height: MediaQuery.of(context).size.height * height,
+      child: child,
     );
   }
 
@@ -30,7 +25,6 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     bool _recordIsActive =
         Provider.of<Tracker>(context, listen: true).recordIsActive;
-
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
@@ -42,9 +36,11 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                     height: MediaQuery.of(context).padding.top,
                   )
                 : Container(),
-            _buildLayer(
-                child: TrackerInformationCard(),
-                height: _recordIsActive ? 0.30 : 0),
+            _recordIsActive
+                ? _buildLayer(
+                    child: TrackerInformationCard(),
+                    height: _recordIsActive ? 0.30 : 0)
+                : Container(),
             Expanded(child: MainMap()),
           ]),
         ),
