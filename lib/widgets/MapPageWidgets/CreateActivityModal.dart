@@ -7,8 +7,8 @@ class CreateActivityModal extends StatelessWidget {
   Widget _buildIconButton({IconData icon, Function onPress}) {
     return InkWell(
       borderRadius: BorderRadius.circular(50),
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
         child: Icon(
           icon,
           size: 35,
