@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sportify_app/widgets/MapPageWidgets/CreateActivityModal.dart';
 import 'package:sportify_app/widgets/MapPageWidgets/SliderCloseButton.dart';
 import '../widgets/MapPageWidgets/MainMap.dart';
 import '../widgets/MapPageWidgets/TrackerInformationCard.dart';
@@ -36,6 +35,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
       alignment: Alignment.bottomCenter,
       children: [
         Container(
+          height: MediaQuery.of(context).size.height,
           child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
             _recordIsActive
                 ? SizedBox(
