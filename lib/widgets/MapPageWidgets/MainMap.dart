@@ -103,8 +103,12 @@ class MainMapState extends State<MainMap> {
             markers: Set<Marker>.of(_markers.values),
             onMapCreated: (controller) => _googleMapController = controller,
           )
-        : Center(
-            child: CircularProgressIndicator(),
+        : Container(
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
           );
   }
 }
