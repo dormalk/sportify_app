@@ -23,7 +23,7 @@ class _MainNavigationState extends State<MainNavigation> {
   Widget _buildBottomBar() {
     return CustomAnimatedBottomBar(
       containerHeight: 70,
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0XFF000033),
       selectedIndex: _currentIndex,
       showElevation: true,
       itemCornerRadius: 24,
