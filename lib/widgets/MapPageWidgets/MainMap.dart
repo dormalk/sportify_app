@@ -24,7 +24,6 @@ class MainMapState extends State<MainMap> {
 
   @override
   void initState() {
-    print('do thiissss');
     _initSelfIcon();
     super.initState();
   }
@@ -35,11 +34,12 @@ class MainMapState extends State<MainMap> {
           .getSingleFile(FirebaseAuth.instance.currentUser.photoURL);
       BitmapDescriptor myIconTemp =
           await convertImageFileToCustomBitmapDescriptor(_avater);
-      setState(() {
-        _myIcon = myIconTemp;
-      });
+      if (this.mounted) {
+        setState(() {
+          _myIcon = myIconTemp;
+        });
+      }
     } catch (e) {
-      print('error occured');
       print(e);
     }
   }
@@ -50,9 +50,11 @@ class MainMapState extends State<MainMap> {
         markerId: MarkerId(title),
         icon: icon == null ? BitmapDescriptor.defaultMarkerWithHue(huv) : icon,
         position: pos);
-    setState(() {
-      _markers[MarkerId(title)] = m;
-    });
+    if (this.mounted) {
+      setState(() {
+        _markers[MarkerId(title)] = m;
+      });
+    }
   }
 
   void _updateLocation(Position pos) {
@@ -69,9 +71,11 @@ class MainMapState extends State<MainMap> {
           pos: LatLng(pos.latitude, pos.longitude),
           icon: _myIcon);
     }
-    setState(() {
-      _currentLocation = pos;
-    });
+    if (this.mounted) {
+      setState(() {
+        _currentLocation = pos;
+      });
+    }
   }
 
   void _listen() {

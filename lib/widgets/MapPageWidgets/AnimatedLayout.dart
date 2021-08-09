@@ -43,15 +43,12 @@ class _AnimatedLayoutState extends State<AnimatedLayout>
   @override
   Widget build(BuildContext context) {
     widget.openMode ? _controller.forward() : _controller.reverse();
-
+    print('test');
     return AnimatedBuilder(
       animation: _heightAnimation,
       builder: (ctx, _) => Wrap(alignment: WrapAlignment.start, children: [
         _buildLayer(
-            child: Padding(
-                padding:
-                    EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-                child: TrackerInformationCard()),
+            child: TrackerInformationCard(),
             height: _heightAnimation.value.height),
         _buildLayer(child: MainMap(), height: 1.0)
       ]),

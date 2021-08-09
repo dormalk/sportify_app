@@ -19,47 +19,44 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = 0;
   final _tabs = [MapPage(), MePage(), FeedPage()];
+  final _appBars = [MapPageAppBar(), MePageAppBar(), null];
 
   @override
   Widget build(BuildContext context) {
-    bool _recordIsActive =
-        Provider.of<Tracker>(context, listen: true).recordIsActive;
-    final _appBars = [
-      !_recordIsActive ? MapPageAppBar() : null,
-      MePageAppBar(),
-      null
-    ];
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       floatingActionButton: _currentIndex == 0 ? FloatingStartButton() : null,
       body: _tabs[_currentIndex],
       appBar: _appBars[_currentIndex],
-      bottomNavigationBar: _recordIsActive
-          ? null
-          : BottomNavigationBar(
-              currentIndex: _currentIndex,
-              type: BottomNavigationBarType.shifting,
-              items: [
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.map),
-                    backgroundColor: Colors.blue,
-                    label: 'Map'),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.person),
-                    backgroundColor: Colors.green,
-                    label: 'Me'),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.post_add),
-                    backgroundColor: Colors.red,
-                    label: 'Feed'),
-              ],
-              onTap: (index) {
-                setState(() {
-                  _currentIndex = index;
-                });
-              },
-            ),
+      bottomNavigationBar: Consumer<Tracker>(
+        builder: (ctx, info, _) => info.recordIsActive
+            ? Container(width: 0.0, height: 0.0)
+            : BottomNavigationBar(
+                currentIndex: _currentIndex,
+                type: BottomNavigationBarType.shifting,
+                items: [
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.map),
+                      backgroundColor: Colors.blue,
+                      label: 'Map'),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.person),
+                      backgroundColor: Colors.green,
+                      label: 'Me'),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.post_add),
+                      backgroundColor: Colors.red,
+                      label: 'Feed'),
+                ],
+                onTap: (index) {
+                  if (this.mounted) {
+                    setState(() {
+                      _currentIndex = index;
+                    });
+                  }
+                },
+              ),
+      ),
     );
   }
 }
