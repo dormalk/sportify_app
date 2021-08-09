@@ -7,8 +7,8 @@ import 'package:provider/provider.dart';
 class MapPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print('SFS');
     return Container(
+      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
       height: MediaQuery.of(context).size.height,
       child: Stack(
         alignment: Alignment.bottomCenter,

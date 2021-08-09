@@ -28,9 +28,7 @@ class _AnimatedLayoutState extends State<AnimatedLayout>
   }
 
   Widget _buildLayer({Widget child, double height}) {
-    double offset = widget.openMode
-        ? 0
-        : kBottomNavigationBarHeight + Scaffold.of(context).appBarMaxHeight;
+    double offset = widget.openMode ? 0 : kBottomNavigationBarHeight;
     return Container(
       height: (MediaQuery.of(context).size.height -
               offset -
@@ -43,7 +41,6 @@ class _AnimatedLayoutState extends State<AnimatedLayout>
   @override
   Widget build(BuildContext context) {
     widget.openMode ? _controller.forward() : _controller.reverse();
-    print('test');
     return AnimatedBuilder(
       animation: _heightAnimation,
       builder: (ctx, _) => Wrap(alignment: WrapAlignment.start, children: [
