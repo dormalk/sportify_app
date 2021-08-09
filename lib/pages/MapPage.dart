@@ -7,14 +7,16 @@ import 'package:provider/provider.dart';
 class MapPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print('SFS');
     return Container(
       height: MediaQuery.of(context).size.height,
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          AnimatedLayout(
-            openMode:
-                Provider.of<Tracker>(context, listen: true).recordIsActive,
+          Consumer<Tracker>(
+            builder: (ctx, info, _) => AnimatedLayout(
+              openMode: info.recordIsActive,
+            ),
           ),
           SliderCloseButton(),
         ],
