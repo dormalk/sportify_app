@@ -21,6 +21,8 @@ class FloatingStartButton extends StatelessWidget {
         Provider.of<Tracker>(context, listen: true).recordIsActive;
     return !_recordIsActive
         ? FloatingActionButton(
+            highlightElevation: 0,
+            elevation: 0,
             child: Icon(Icons.play_arrow),
             onPressed: () => _showDialog(context))
         : Container();

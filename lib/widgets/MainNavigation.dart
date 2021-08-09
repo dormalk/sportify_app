@@ -31,6 +31,7 @@ class _MainNavigationState extends State<MainNavigation> {
     ];
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       floatingActionButton: _currentIndex == 0 ? FloatingStartButton() : null,
       body: _tabs[_currentIndex],
       appBar: _appBars[_currentIndex],

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:sportify_app/modals/Activity.dart';
 import 'package:sportify_app/providers/Tracker.dart';
@@ -104,9 +102,12 @@ class _TrackerInformationCardState extends State<TrackerInformationCard> {
   }
 
   Widget _buildCardInfo() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [_buildDurationCol(), _buildSecondRowCardInfo()],
+    return ClipRect(
+      clipBehavior: Clip.antiAlias,
+      child: Wrap(
+        runAlignment: WrapAlignment.spaceAround,
+        children: [_buildDurationCol(), _buildSecondRowCardInfo()],
+      ),
     );
   }
 
@@ -114,11 +115,9 @@ class _TrackerInformationCardState extends State<TrackerInformationCard> {
   Widget build(BuildContext context) {
     _listen();
     return Card(
+      clipBehavior: Clip.antiAlias,
       color: Colors.white,
-      child: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: _buildCardInfo(),
-      ),
+      child: _buildCardInfo(),
     );
   }
 }

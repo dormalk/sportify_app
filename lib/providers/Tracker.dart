@@ -11,19 +11,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 String _parseToSrt(int val) {
   if (val < 10)
-    return '0${val}';
+    return '0$val';
   else
-    return '${val}';
+    return '$val';
 }
 
-final double REPIRATORY_EXCHANGE_RATIO = 4.83;
-final double MASS_KG = 70;
+const double REPIRATORY_EXCHANGE_RATIO = 4.83;
+const double MASS_KG = 70;
 
 class Tracker extends ChangeNotifier {
   Activity currentActivity;
 
   int _secFromStart = 0;
   bool _recordIsActive = false;
+  // ignore: non_constant_identifier_names
   double get _VO2 => (0.2 * velocity) + 3.5;
   Position _currentPosition;
   double totalCaloriesBurn = 0;
@@ -108,7 +109,9 @@ class Tracker extends ChangeNotifier {
     notifyListeners();
   }
 
+  @override
   void dispose() {
+    super.dispose();
     _positionStream.cancel();
     _timer.cancel();
   }

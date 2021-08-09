@@ -1,18 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sportify_app/providers/Tracker.dart';
 import 'package:provider/provider.dart';
 import 'package:slide_button/slide_button.dart';
 import 'package:sportify_app/shared/Labels.dart';
 
-class SliderCloseButton extends StatefulWidget {
-  SliderCloseButton({Key key});
-
-  @override
-  _SliderCloseButtonState createState() => _SliderCloseButtonState();
-}
-
-class _SliderCloseButtonState extends State<SliderCloseButton> {
+class SliderCloseButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool _recordIsActive =
