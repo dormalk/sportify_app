@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
@@ -58,6 +59,7 @@ class MainMapState extends State<MainMap> {
   }
 
   void _updateLocation(Position pos) {
+    print(pos);
     if (pos != null && _googleMapController != null) {
       _googleMapController
           .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(

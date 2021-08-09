@@ -35,16 +35,15 @@ class Tracker extends ChangeNotifier {
   String get fommatedTimer =>
       '${_parseToSrt((_secFromStart ~/ 60).toInt())}:${_parseToSrt(_secFromStart % 60)}';
 
-  StreamSubscription _positionStream;
+  StreamSubscription positionStream;
   Timer _timer;
 
   Tracker() {
     this.initGeoLocation();
-    this.initTimer();
   }
 
   void initGeoLocation() {
-    _positionStream = Geolocator.getPositionStream(
+    positionStream = Geolocator.getPositionStream(
             distanceFilter: 1, desiredAccuracy: LocationAccuracy.high)
         .listen((Position position) => _recordTick(position));
   }
@@ -81,7 +80,7 @@ class Tracker extends ChangeNotifier {
     return polylinesMap;
   }
 
-  void _recordTick(Position newPos) async {
+  void _recordTick(Position newPos) {
     _currentPosition = newPos;
     if (_recordIsActive) {
       currentActivity.polylineCoordinates
@@ -91,6 +90,7 @@ class Tracker extends ChangeNotifier {
   }
 
   void startRecord(ActivityType activityType) {
+    this.initTimer();
     currentActivity = Activity(
         activityType: activityType,
         ownerId: FirebaseAuth.instance.currentUser.uid);
@@ -101,6 +101,7 @@ class Tracker extends ChangeNotifier {
 
   void stopRecord() {
     _recordIsActive = false;
+    _timer.cancel();
     clearMyRecord();
   }
 
@@ -112,7 +113,7 @@ class Tracker extends ChangeNotifier {
   @override
   void dispose() {
     super.dispose();
-    _positionStream.cancel();
+    positionStream.cancel();
     _timer.cancel();
   }
 }
