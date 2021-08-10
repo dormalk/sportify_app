@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sportify_app/pages/WelcomePage.dart';
 import 'package:sportify_app/providers/Auth.dart';
-import 'package:sportify_app/providers/Tracker.dart';
+import 'package:sportify_app/providers/TrackerInfo.dart';
 import 'package:sportify_app/widgets/MainNavigation.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
           create: (ctx) => Auth(),
         ),
         ChangeNotifierProvider(
-          create: (ctx) => Tracker(),
+          create: (ctx) => TrackerInfo(),
         )
       ],
       child: MaterialApp(

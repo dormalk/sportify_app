@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:sportify_app/pages/FeedPage.dart';
 import 'package:sportify_app/pages/MapPage.dart';
 import 'package:sportify_app/pages/MePage.dart';
+import 'package:sportify_app/providers/TrackerInfo.dart';
 import 'General/CustomAnimatedBottomBar.dart';
 import 'MapPageWidgets/FloatingStartButton.dart';
-import 'package:sportify_app/providers/Tracker.dart';
 import 'package:provider/provider.dart';
 
 class MainNavigation extends StatefulWidget {
@@ -70,7 +70,7 @@ class _MainNavigationState extends State<MainNavigation> {
       resizeToAvoidBottomInset: false,
       floatingActionButton: _currentIndex == 0 ? FloatingStartButton() : null,
       body: _tabs[_currentIndex],
-      bottomNavigationBar: Consumer<Tracker>(
+      bottomNavigationBar: Consumer<TrackerInfo>(
         builder: (ctx, info, _) => info.recordIsActive
             ? Container(width: 0.0, height: 0.0)
             : _buildBottomBar(),

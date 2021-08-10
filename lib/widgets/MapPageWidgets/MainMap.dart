@@ -1,9 +1,8 @@
-import 'dart:async';
 import 'dart:io';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:sportify_app/providers/Tracker.dart';
+import 'package:sportify_app/providers/TrackerInfo.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -59,7 +58,6 @@ class MainMapState extends State<MainMap> {
   }
 
   void _updateLocation(Position pos) {
-    print(pos);
     if (pos != null && _googleMapController != null) {
       _googleMapController
           .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
@@ -81,15 +79,14 @@ class MainMapState extends State<MainMap> {
   }
 
   void _listen() {
-    _polylines = Provider.of<Tracker>(context, listen: true).polylines;
+    _polylines = Provider.of<TrackerInfo>(context, listen: true).polylines;
     _updateLocation(
-        Provider.of<Tracker>(context, listen: true).currentPosition);
+        Provider.of<TrackerInfo>(context, listen: true).currentPosition);
   }
 
   @override
   Widget build(BuildContext context) {
     _listen();
-
     return _currentLocation != null
         ? GoogleMap(
             initialCameraPosition: CameraPosition(

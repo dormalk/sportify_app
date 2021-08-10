@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sportify_app/modals/Activity.dart';
 import 'package:sportify_app/shared/Labels.dart';
-import 'package:sportify_app/providers/Tracker.dart';
+import 'package:sportify_app/providers/TrackerInfo.dart';
 import 'package:provider/provider.dart';
 
 class CreateActivityModal extends StatelessWidget {
@@ -31,15 +31,17 @@ class CreateActivityModal extends StatelessWidget {
           _buildIconButton(
               icon: mapActivityIcon[ActivityType.Bike],
               onPress: () {
-                Provider.of<Tracker>(context, listen: false)
-                    .startRecord(ActivityType.Bike);
+                Provider.of<TrackerInfo>(context, listen: false)
+                    .setActivity(ActivityType.Bike)
+                    .playActivity();
                 Navigator.of(context).pop();
               }),
           _buildIconButton(
               icon: mapActivityIcon[ActivityType.Run],
               onPress: () {
-                Provider.of<Tracker>(context, listen: false)
-                    .startRecord(ActivityType.Run);
+                Provider.of<TrackerInfo>(context, listen: false)
+                    .setActivity(ActivityType.Run)
+                    .playActivity();
                 Navigator.of(context).pop();
               }),
         ],

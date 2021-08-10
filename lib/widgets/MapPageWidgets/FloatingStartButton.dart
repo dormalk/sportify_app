@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:sportify_app/providers/Tracker.dart';
+import 'package:sportify_app/providers/TrackerInfo.dart';
 import 'package:provider/provider.dart';
 import 'package:sportify_app/widgets/MapPageWidgets/CreateActivityModal.dart';
 
@@ -18,12 +18,15 @@ class FloatingStartButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool _recordIsActive =
-        Provider.of<Tracker>(context, listen: true).recordIsActive;
+        Provider.of<TrackerInfo>(context, listen: true).recordIsActive;
     return !_recordIsActive
         ? FloatingActionButton(
-            highlightElevation: 0,
-            elevation: 0,
-            child: Icon(Icons.play_arrow),
+            elevation: 1,
+            backgroundColor: Color(0XFF000033),
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
             onPressed: () => _showDialog(context))
         : Container();
   }

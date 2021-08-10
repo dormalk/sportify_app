@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sportify_app/providers/Tracker.dart';
+import 'package:sportify_app/providers/TrackerInfo.dart';
 import 'package:provider/provider.dart';
 import 'package:slide_button/slide_button.dart';
 import 'package:sportify_app/shared/Labels.dart';
@@ -8,7 +8,7 @@ class SliderCloseButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool _recordIsActive =
-        Provider.of<Tracker>(context, listen: true).recordIsActive;
+        Provider.of<TrackerInfo>(context, listen: true).recordIsActive;
     return _recordIsActive
         ? Container(
             height: 50,
@@ -33,7 +33,8 @@ class SliderCloseButton extends StatelessWidget {
               initialSliderPercentage: 100.0,
               onButtonSlide: (percentage) {
                 if (percentage < 0.1) {
-                  Provider.of<Tracker>(context, listen: false).stopRecord();
+                  Provider.of<TrackerInfo>(context, listen: false)
+                      .stopActivity();
                 }
               },
             ))

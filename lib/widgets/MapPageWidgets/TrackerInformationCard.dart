@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sportify_app/modals/Activity.dart';
-import 'package:sportify_app/providers/Tracker.dart';
 import 'package:provider/provider.dart';
+import 'package:sportify_app/providers/TrackerInfo.dart';
 import 'package:sportify_app/shared/Labels.dart';
 
 class TrackerInformationCard extends StatelessWidget {
@@ -24,19 +24,19 @@ class TrackerInformationCard extends StatelessWidget {
   }
 
   Widget _buildDurationCol() {
-    return Consumer<Tracker>(
+    return Consumer<TrackerInfo>(
       builder: (context, info, _) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
               flex: 1,
               child: Icon(
-                mapActivityIcon[info.currentActivity?.activityType],
+                mapActivityIcon[info.pickedActivity?.activityType],
                 size: 40,
               )),
           _buildCol(
               flex: 2,
-              value: info.fommatedTimer,
+              value: info.stringTimer,
               label: Labels.duration,
               fontSize: 40),
           Expanded(flex: 1, child: Container())
@@ -46,7 +46,7 @@ class TrackerInformationCard extends StatelessWidget {
   }
 
   Widget _buildSecondRowCardInfo() {
-    return Consumer<Tracker>(
+    return Consumer<TrackerInfo>(
       builder: (context, info, _) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -57,7 +57,7 @@ class TrackerInformationCard extends StatelessWidget {
               fontSize: 25),
           _buildCol(
               flex: 1,
-              value: info.velocity.toStringAsFixed(2),
+              value: info.speed.toStringAsFixed(2),
               label: Labels.velocity,
               fontSize: 25),
           _buildCol(
