@@ -6,7 +6,7 @@ import 'package:sportify_app/providers/TrackerInfo.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:sportify_app/shared/widgets/BitmapAvater.dart';
+import 'package:sportify_app/shared/helpers/BitmapAvater.dart';
 
 class MainMap extends StatefulWidget {
   @override
@@ -30,10 +30,10 @@ class MainMapState extends State<MainMap> {
 
   void _initSelfIcon() async {
     try {
-      final File _avater = await DefaultCacheManager()
-          .getSingleFile(FirebaseAuth.instance.currentUser.photoURL);
       BitmapDescriptor myIconTemp =
-          await convertImageFileToCustomBitmapDescriptor(_avater);
+          await convertImageFileToCustomBitmapDescriptor(
+              await DefaultCacheManager()
+                  .getSingleFile(FirebaseAuth.instance.currentUser.photoURL));
       if (this.mounted) {
         setState(() {
           _myIcon = myIconTemp;

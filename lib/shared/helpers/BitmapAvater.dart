@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+
+
+
 Future<BitmapDescriptor> convertImageFileToCustomBitmapDescriptor(
     File imageFile,
     {int size = 100,
