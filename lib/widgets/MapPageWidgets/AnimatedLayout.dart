@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sportify_app/widgets/MapPageWidgets/MainMap.dart';
-import 'package:sportify_app/widgets/MapPageWidgets/TrackerInformationCard.dart';
+import 'package:sportify_app/widgets/MapPageWidgets/TrackerInformationCard/TrackerInformationCard.dart';
 
 class AnimatedLayout extends StatefulWidget {
   final bool openMode;

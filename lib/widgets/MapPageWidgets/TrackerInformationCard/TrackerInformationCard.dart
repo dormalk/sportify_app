@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:sportify_app/providers/TrackerInfo.dart';
 import 'package:sportify_app/shared/Colors.dart';
 import 'package:sportify_app/shared/Labels.dart';
-
-import 'ActivityPauseRow.dart';
+import '../ActivityPauseRow.dart';
+import 'BlinkedCol.dart';
 
 class TrackerInformationCard extends StatelessWidget {
   final Color fontColor = Colors.grey[700];
@@ -40,7 +40,7 @@ class TrackerInformationCard extends StatelessWidget {
               flex: 1,
               child: Icon(mapActivityIcon[info.pickedActivity?.activityType],
                   size: 35, color: fontColor)),
-          _buildCol(
+          BlinkedCol(
               flex: 1,
               value: info.stringTimer,
               label: Labels.duration,
