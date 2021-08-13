@@ -9,6 +9,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sportify_app/helper/MathCalc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sportify_app/shared/Colors.dart';
 
 String _parseToSrt(int val) {
   if (val < 10)
@@ -51,7 +52,7 @@ class TrackerInfo extends ChangeNotifier {
     PolylineId id = PolylineId("poly");
     Polyline polyline = Polyline(
         polylineId: id,
-        color: Colors.red,
+        color: CustomColor.seconderyColor,
         points:
             pickedActivity == null ? [] : pickedActivity.polylineCoordinates,
         width: 5);

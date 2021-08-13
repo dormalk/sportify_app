@@ -5,6 +5,8 @@ import 'package:sportify_app/providers/TrackerInfo.dart';
 import 'package:sportify_app/shared/Labels.dart';
 
 class TrackerInformationCard extends StatelessWidget {
+  Color fontColor = Colors.grey[700];
+
   Widget _buildCol({int flex, String value, String label, double fontSize}) {
     return Expanded(
       flex: flex,
@@ -14,7 +16,10 @@ class TrackerInformationCard extends StatelessWidget {
           children: [
             Text(
               value,
-              style: TextStyle(fontSize: fontSize),
+              style: TextStyle(
+                  fontSize: fontSize,
+                  color: fontColor,
+                  fontWeight: FontWeight.bold),
             ),
             Text(label)
           ],
@@ -30,12 +35,10 @@ class TrackerInformationCard extends StatelessWidget {
         children: [
           Expanded(
               flex: 1,
-              child: Icon(
-                mapActivityIcon[info.pickedActivity?.activityType],
-                size: 40,
-              )),
+              child: Icon(mapActivityIcon[info.pickedActivity?.activityType],
+                  size: 35, color: fontColor)),
           _buildCol(
-              flex: 2,
+              flex: 1,
               value: info.stringTimer,
               label: Labels.duration,
               fontSize: 40),

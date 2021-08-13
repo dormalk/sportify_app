@@ -24,7 +24,7 @@ class SliderCloseButton extends StatelessWidget {
                     overflow: TextOverflow.fade,
                     softWrap: false,
                     maxLines: 1,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                 ),
               ),
