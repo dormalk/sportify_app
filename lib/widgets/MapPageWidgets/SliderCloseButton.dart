@@ -9,35 +9,40 @@ class SliderCloseButton extends StatelessWidget {
   Widget build(BuildContext context) {
     bool _recordIsActive =
         Provider.of<TrackerInfo>(context, listen: true).recordIsActive;
-    return _recordIsActive
-        ? Container(
-            height: 50,
-            alignment: Alignment.bottomCenter,
-            child: SlideButton(
-              height: 50,
-              borderRadius: 0.0,
-              backgroundColor: Colors.transparent,
-              slidingChild: Container(
-                child: Center(
-                  child: Text(
-                    Labels.SLIDE_STOP_ACTIVITY,
-                    overflow: TextOverflow.fade,
-                    softWrap: false,
-                    maxLines: 1,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+    return Consumer<TrackerInfo>(
+        builder: (ctx, info, _) => info.recordIsActive && !info.recordIsPaused
+            ? Container(
+                height: 50,
+                alignment: Alignment.bottomCenter,
+                child: SlideButton(
+                  height: 50,
+                  borderRadius: 0.0,
+                  backgroundColor: Colors.transparent,
+                  slidingChild: Container(
+                    child: Center(
+                      child: Text(
+                        Labels.SLIDE_STOP_ACTIVITY,
+                        overflow: TextOverflow.fade,
+                        softWrap: false,
+                        maxLines: 1,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              slidingBarColor: Colors.black.withOpacity(0.2),
-              slideDirection: SlideDirection.LEFT,
-              initialSliderPercentage: 100.0,
-              onButtonSlide: (percentage) {
-                if (percentage < 0.1) {
-                  Provider.of<TrackerInfo>(context, listen: false)
-                      .stopActivity();
-                }
-              },
-            ))
-        : Container();
+                  slidingBarColor: Colors.black.withOpacity(0.2),
+                  slideDirection: SlideDirection.LEFT,
+                  initialSliderPercentage: 100.0,
+                  onButtonSlide: (percentage) {
+                    if (percentage < 0.1) {
+                      Provider.of<TrackerInfo>(context, listen: false)
+                          .pauseActivity();
+                    }
+                  },
+                ))
+            : Container(
+                width: 0,
+                height: 0,
+              ));
   }
 }

@@ -26,6 +26,7 @@ class TrackerInfo extends ChangeNotifier {
   ActivityWithGeolocation pickedActivity;
   Position currentPosition;
   bool recordIsActive = false;
+  bool recordIsPaused = false;
   int _activityTime = 0;
   Timer _timer;
   double totalCaloriesBurn = 0;
@@ -105,15 +106,23 @@ class TrackerInfo extends ChangeNotifier {
 
   void playActivity() {
     this.recordIsActive = true;
+    this.recordIsPaused = false;
     _initTimer();
   }
 
   void stopActivity() {
     this.recordIsActive = false;
+    this.recordIsPaused = false;
     _timer.cancel();
     pickedActivity.positionedConrdinats = [];
     totalCaloriesBurn = 0;
     _activityTime = 0;
+    notifyListeners();
+  }
+
+  void pauseActivity() {
+    _timer.cancel();
+    this.recordIsPaused = true;
     notifyListeners();
   }
 

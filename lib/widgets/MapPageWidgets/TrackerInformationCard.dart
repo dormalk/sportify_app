@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:sportify_app/modals/Activity.dart';
 import 'package:provider/provider.dart';
 import 'package:sportify_app/providers/TrackerInfo.dart';
+import 'package:sportify_app/shared/Colors.dart';
 import 'package:sportify_app/shared/Labels.dart';
 
+import 'ActivityPauseRow.dart';
+
 class TrackerInformationCard extends StatelessWidget {
-  Color fontColor = Colors.grey[700];
+  final Color fontColor = Colors.grey[700];
 
   Widget _buildCol({int flex, String value, String label, double fontSize}) {
     return Expanded(
@@ -73,12 +76,57 @@ class TrackerInformationCard extends StatelessWidget {
     );
   }
 
+  Widget _buildEndActivityRow(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+      width: double.infinity,
+      color: CustomColor.primaryColor,
+      child: Row(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15.0),
+              child: Text(
+                'YOU DID A GREAT JOB!!!',
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          InkWell(
+              onTap: null,
+              child: Container(
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15), color: Colors.red),
+                child: Text(
+                  'POST AS CHALLENGE',
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+              )),
+          IconButton(
+              icon: Icon(
+                Icons.close,
+                color: Colors.grey[500],
+              ),
+              onPressed: () => Provider.of<TrackerInfo>(context, listen: false)
+                  .stopActivity())
+        ],
+      ),
+    );
+  }
+
   Widget _buildCardInfo() {
     return ClipRect(
       clipBehavior: Clip.antiAlias,
       child: Wrap(
         runAlignment: WrapAlignment.spaceAround,
-        children: [_buildDurationCol(), _buildSecondRowCardInfo()],
+        children: [
+          _buildDurationCol(),
+          _buildSecondRowCardInfo(),
+          ActivityPauseRow()
+        ],
       ),
     );
   }

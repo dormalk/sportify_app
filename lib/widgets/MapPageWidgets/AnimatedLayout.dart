@@ -23,7 +23,7 @@ class _AnimatedLayoutState extends State<AnimatedLayout>
     _controller =
         AnimationController(vsync: this, duration: Duration(milliseconds: 800));
     _heightAnimation = Tween<Size>(
-            begin: Size(double.infinity, 0), end: Size(double.infinity, 0.25))
+            begin: Size(double.infinity, 0), end: Size(double.infinity, 0.23))
         .animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
   }
 
