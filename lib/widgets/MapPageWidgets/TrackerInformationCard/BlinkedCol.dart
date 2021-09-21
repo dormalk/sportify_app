@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sportify_app/providers/TrackerInfo.dart';
@@ -17,11 +19,12 @@ class BlinkedCol extends StatefulWidget {
 class _BlinkedColState extends State<BlinkedCol>
     with SingleTickerProviderStateMixin {
   AnimationController _animationController;
-
+  Timer _timer;
   @override
   void initState() {
     _animationController = new AnimationController(
         vsync: this, duration: Duration(seconds: 1), value: 1);
+    _timer = Timer(Duration(seconds: 3), () => _animationController.reset());
     super.initState();
   }
 
@@ -32,7 +35,9 @@ class _BlinkedColState extends State<BlinkedCol>
     if (recordIsPaused) {
       _animationController.repeat(reverse: true);
     } else {
-      _animationController.stop();
+      _animationController.reset();
+      _timer.cancel();
+      _animationController.value = 1;
     }
     return Expanded(
       flex: widget.flex,

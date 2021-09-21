@@ -81,8 +81,14 @@ class TrackerInformationCard extends StatelessWidget {
       child: Wrap(
         runAlignment: WrapAlignment.spaceAround,
         children: [
-          _buildDurationCol(),
-          _buildSecondRowCardInfo(),
+          Padding(
+            padding: const EdgeInsets.only(top: 15),
+            child: _buildDurationCol(),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15, top: 8),
+            child: _buildSecondRowCardInfo(),
+          ),
           ActivityPauseRow()
         ],
       ),

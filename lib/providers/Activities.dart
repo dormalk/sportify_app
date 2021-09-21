@@ -9,7 +9,6 @@ class Activities extends ChangeNotifier {
   void addActivity(Activity activity) async {
     DocumentReference<Object> res =
         await FirestoreIntegrator.activityREST.addNewActivity(activity);
-    print(res.id);
     activity.id = res.id;
     activities.add(activity);
     notifyListeners();

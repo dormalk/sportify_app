@@ -4,7 +4,6 @@ import 'package:sportify_app/widgets/MapPageWidgets/TrackerInformationCard/Track
 
 class AnimatedLayout extends StatefulWidget {
   final bool openMode;
-
   const AnimatedLayout({Key key, @required this.openMode}) : super(key: key);
 
   @override
@@ -19,21 +18,22 @@ class _AnimatedLayoutState extends State<AnimatedLayout>
   @override
   void initState() {
     super.initState();
-
     _controller =
         AnimationController(vsync: this, duration: Duration(milliseconds: 800));
     _heightAnimation = Tween<Size>(
-            begin: Size(double.infinity, 0), end: Size(double.infinity, 0.23))
+            begin: Size(double.infinity, 0), end: Size(double.infinity, 0.30))
         .animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
   }
 
   Widget _buildLayer({Widget child, double height}) {
     double offset = widget.openMode ? 0 : kBottomNavigationBarHeight;
-    return Container(
-      height: (MediaQuery.of(context).size.height -
-              offset -
-              MediaQuery.of(context).padding.top) *
-          height,
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+          maxHeight: (MediaQuery.of(context).size.height -
+                  offset -
+                  MediaQuery.of(context).padding.top) *
+              height,
+          minHeight: 0),
       child: child,
     );
   }

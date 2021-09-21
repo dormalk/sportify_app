@@ -48,7 +48,6 @@ class _ActivityPauseRowState extends State<ActivityPauseRow>
       sizeFactor: _animation,
       axis: Axis.vertical,
       child: Container(
-        margin: EdgeInsets.only(top: 10),
         width: double.infinity,
         color: CustomColor.primaryColor,
         child: Row(
@@ -72,7 +71,7 @@ class _ActivityPauseRowState extends State<ActivityPauseRow>
                   trackerInfo.stopActivity();
                 },
                 child: Container(
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       color: Colors.red),
