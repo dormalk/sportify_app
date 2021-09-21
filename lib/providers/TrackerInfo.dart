@@ -34,7 +34,7 @@ class TrackerInfo extends ChangeNotifier {
   // ignore: non_constant_identifier_names
   double get _VO2 => (0.2 * speed) + 3.5;
   double get _caloriesBurn => REPIRATORY_EXCHANGE_RATIO * MASS_KG * _VO2 / 1000;
-  double get speed => currentPosition.speed;
+  double get speed => currentPosition?.speed;
   String get stringTimer =>
       '${_parseToSrt((_activityTime ~/ 60).toInt())}:${_parseToSrt(_activityTime % 60)}';
   double get totalDistanceInKm {
@@ -88,9 +88,9 @@ class TrackerInfo extends ChangeNotifier {
     currentPosition = pos;
     if (recordIsActive) {
       pickedActivity.addPositionRecordInfo(
-          latitude: currentPosition.latitude,
-          longitude: currentPosition.longitude,
-          speed: currentPosition.speed,
+          latitude: currentPosition?.latitude,
+          longitude: currentPosition?.longitude,
+          speed: currentPosition?.speed,
           time: _activityTime);
     }
     notifyListeners();
@@ -114,7 +114,7 @@ class TrackerInfo extends ChangeNotifier {
     this.recordIsActive = false;
     this.recordIsPaused = false;
     _timer.cancel();
-    pickedActivity.positionedConrdinats = [];
+    pickedActivity.coordinates = [];
     totalCaloriesBurn = 0;
     _activityTime = 0;
     notifyListeners();

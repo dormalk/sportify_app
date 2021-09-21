@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sportify_app/modals/Activity.dart';
 import 'package:provider/provider.dart';
 import 'package:sportify_app/providers/TrackerInfo.dart';
-import 'package:sportify_app/shared/Colors.dart';
 import 'package:sportify_app/shared/Labels.dart';
 import '../ActivityPauseRow.dart';
 import 'BlinkedCol.dart';
@@ -18,13 +17,13 @@ class TrackerInformationCard extends StatelessWidget {
             child: Column(
           children: [
             Text(
-              value,
+              value == null ? '' : value,
               style: TextStyle(
                   fontSize: fontSize,
                   color: fontColor,
                   fontWeight: FontWeight.bold),
             ),
-            Text(label)
+            Text(label == null ? '' : label)
           ],
         )),
       ),
@@ -38,11 +37,11 @@ class TrackerInformationCard extends StatelessWidget {
         children: [
           Expanded(
               flex: 1,
-              child: Icon(mapActivityIcon[info.pickedActivity?.activityType],
+              child: Icon(mapActivityIcon[info?.pickedActivity?.activityType],
                   size: 35, color: fontColor)),
           BlinkedCol(
               flex: 1,
-              value: info.stringTimer,
+              value: info?.stringTimer,
               label: Labels.duration,
               fontSize: 40),
           Expanded(flex: 1, child: Container())
@@ -58,60 +57,19 @@ class TrackerInformationCard extends StatelessWidget {
         children: [
           _buildCol(
               flex: 1,
-              value: info.totalCaloriesBurn.toStringAsFixed(2),
+              value: info?.totalCaloriesBurn?.toStringAsFixed(2),
               label: Labels.calories,
               fontSize: 25),
           _buildCol(
               flex: 1,
-              value: info.speed.toStringAsFixed(2),
+              value: info?.speed?.toStringAsFixed(2),
               label: Labels.velocity,
               fontSize: 25),
           _buildCol(
               flex: 1,
-              value: info.totalDistanceInKm.toStringAsFixed(2),
+              value: info?.totalDistanceInKm?.toStringAsFixed(2),
               label: Labels.distance,
               fontSize: 25),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildEndActivityRow(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 10),
-      width: double.infinity,
-      color: CustomColor.primaryColor,
-      child: Row(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 15.0),
-              child: Text(
-                'YOU DID A GREAT JOB!!!',
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
-          InkWell(
-              onTap: null,
-              child: Container(
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15), color: Colors.red),
-                child: Text(
-                  'POST AS CHALLENGE',
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-              )),
-          IconButton(
-              icon: Icon(
-                Icons.close,
-                color: Colors.grey[500],
-              ),
-              onPressed: () => Provider.of<TrackerInfo>(context, listen: false)
-                  .stopActivity())
         ],
       ),
     );

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sportify_app/modals/Activity.dart';
 import 'package:provider/provider.dart';
+import 'package:sportify_app/providers/Activities.dart';
 import 'package:sportify_app/providers/TrackerInfo.dart';
 import 'package:sportify_app/shared/Colors.dart';
-import 'package:sportify_app/shared/Labels.dart';
 
 class ActivityPauseRow extends StatefulWidget {
   const ActivityPauseRow({Key key}) : super(key: key);
@@ -65,7 +64,13 @@ class _ActivityPauseRowState extends State<ActivityPauseRow>
               ),
             ),
             InkWell(
-                onTap: null,
+                onTap: () {
+                  var trackerInfo =
+                      Provider.of<TrackerInfo>(context, listen: false);
+                  Provider.of<Activities>(context, listen: false)
+                      .addActivity(trackerInfo.pickedActivity);
+                  trackerInfo.stopActivity();
+                },
                 child: Container(
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(

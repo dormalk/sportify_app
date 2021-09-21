@@ -1,3 +1,4 @@
+import 'package:sportify_app/modals/Activity.dart';
 import 'package:sportify_app/modals/User.dart';
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,6 +19,16 @@ class _UsersREST {
   }
 }
 
+class _ActivityREST {
+  CollectionReference _activities =
+      FirebaseFirestore.instance.collection('activities');
+
+  Future<DocumentReference<Object>> addNewActivity(Activity activity) {
+    return _activities.add(activity.toJson());
+  }
+}
+
 class FirestoreIntegrator {
   static final _UsersREST usersREST = _UsersREST();
+  static final _ActivityREST activityREST = _ActivityREST();
 }

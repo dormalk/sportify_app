@@ -15,7 +15,7 @@ class MapPage extends StatelessWidget {
         children: [
           Consumer<TrackerInfo>(
             builder: (ctx, info, _) => AnimatedLayout(
-              openMode: info.recordIsActive,
+              openMode: info?.recordIsActive,
             ),
           ),
           SliderCloseButton(),

@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -61,15 +60,15 @@ class MainMapState extends State<MainMap> {
     if (pos != null && _googleMapController != null) {
       _googleMapController
           .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-        target: LatLng(pos.latitude, pos.longitude),
+        target: LatLng(pos?.latitude, pos?.longitude),
         zoom: 17,
       )));
-    }
-    if (_myIcon != null) {
-      _upsertMarker(
-          title: 'self',
-          pos: LatLng(pos.latitude, pos.longitude),
-          icon: _myIcon);
+      if (_myIcon != null) {
+        _upsertMarker(
+            title: 'self',
+            pos: LatLng(pos?.latitude, pos?.longitude),
+            icon: _myIcon);
+      }
     }
     if (this.mounted) {
       setState(() {
@@ -90,8 +89,8 @@ class MainMapState extends State<MainMap> {
     return _currentLocation != null
         ? GoogleMap(
             initialCameraPosition: CameraPosition(
-              target:
-                  LatLng(_currentLocation.latitude, _currentLocation.longitude),
+              target: LatLng(
+                  _currentLocation?.latitude, _currentLocation?.longitude),
               zoom: 17,
             ),
             myLocationButtonEnabled: false,

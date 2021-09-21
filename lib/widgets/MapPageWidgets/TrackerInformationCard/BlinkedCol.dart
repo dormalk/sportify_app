@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sportify_app/modals/Activity.dart';
 import 'package:provider/provider.dart';
 import 'package:sportify_app/providers/TrackerInfo.dart';
-import 'package:sportify_app/shared/Colors.dart';
-import 'package:sportify_app/shared/Labels.dart';
-import '../ActivityPauseRow.dart';
 
 class BlinkedCol extends StatefulWidget {
   final Color fontColor = Colors.grey[700];
