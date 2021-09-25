@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sportify_app/providers/TrackerInfo.dart';
 import 'package:provider/provider.dart';
 import 'package:slide_button/slide_button.dart';
+import 'package:sportify_app/shared/Colors.dart';
 import 'package:sportify_app/shared/Labels.dart';
 
 class SliderCloseButton extends StatelessWidget {
@@ -25,11 +26,13 @@ class SliderCloseButton extends StatelessWidget {
                             softWrap: false,
                             maxLines: 1,
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
                           ),
                         ),
                       ),
-                      slidingBarColor: Colors.black.withOpacity(0.2),
+                      slidingBarColor: CustomColor.primaryColor,
                       slideDirection: SlideDirection.LEFT,
                       initialSliderPercentage: 100.0,
                       onButtonSlide: (percentage) {

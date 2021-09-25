@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sportify_app/modals/User.dart';
 
 enum ActivityType { Bike, Run }
 
@@ -15,12 +16,18 @@ abstract class Activity {
   ActivityType activityType;
   String ownerId;
   DateTime createdAt;
+  double latitude;
+  double longitude;
+  String ownerImg;
 
   Activity();
   Activity.fromJson(Map<String, dynamic> json)
       : this.id = json['id'],
-        this.activityType = json['activityType'],
+        this.activityType = ActivityType.values
+            .firstWhere((e) => e.toString() == json['activityType']),
         this.ownerId = json['ownerId'],
+        this.longitude = json['longitude'],
+        this.latitude = json['latitude'],
         this.createdAt = DateTime.parse(json['createdAt']);
   Map<String, dynamic> toJson();
 }
@@ -70,14 +77,18 @@ class ActivityWithGeolocation extends Activity {
   }
 
   ActivityWithGeolocation.fromJson(Map<String, dynamic> json)
-      : coordinates = jsonDecode(json['coordinates'])
-            .map((coordinate) => _PositionRecordInfo.fromJson(coordinate)),
-        super.fromJson(json);
+      : super.fromJson(json) {
+    (json['coordinates'] as List<dynamic>).forEach((element) {
+      this.coordinates.add(_PositionRecordInfo.fromJson(element));
+    });
+  }
 
   @override
   Map<String, dynamic> toJson() => {
         'id': id,
         'ownerId': ownerId,
+        'latitude': coordinates[0].latitude,
+        'longitude': coordinates[0].longitude,
         'createdAt': createdAt.toString(),
         'activityType': activityType.toString(),
         'coordinates':

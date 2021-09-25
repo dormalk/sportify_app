@@ -30,6 +30,8 @@ class TrackerInfo extends ChangeNotifier {
   int _activityTime = 0;
   Timer _timer;
   double totalCaloriesBurn = 0;
+  Activity rivalActivity;
+  List<LatLng> rivalPositions = [];
 
   // ignore: non_constant_identifier_names
   double get _VO2 => (0.2 * speed) + 3.5;
@@ -58,12 +60,22 @@ class TrackerInfo extends ChangeNotifier {
             pickedActivity == null ? [] : pickedActivity.polylineCoordinates,
         width: 5);
     polylinesMap[id] = polyline;
+    if (hasRival()) {
+      PolylineId rivalId = PolylineId(rivalActivity.id);
+      Polyline rival = Polyline(
+          polylineId: rivalId,
+          color: Colors.red,
+          points: rivalPositions,
+          width: 5);
+      polylinesMap[rivalId] = rival;
+    }
     return polylinesMap;
   }
 
   TrackerInfo() {
     _initGeoLocatorStream();
   }
+
   void _initGeoLocatorStream() {
     _positionStream = Geolocator.getPositionStream(
             distanceFilter: 1, desiredAccuracy: LocationAccuracy.high)
@@ -100,21 +112,41 @@ class TrackerInfo extends ChangeNotifier {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       _activityTime++;
       totalCaloriesBurn += _caloriesBurn;
+      if (hasRival()) {
+        if (rivalActivity.activityType == ActivityType.Bike ||
+            rivalActivity.activityType == ActivityType.Run) {
+          var positionInfo = (this.rivalActivity as ActivityWithGeolocation)
+              .coordinates
+              .firstWhere((element) => element.time == _activityTime,
+                  orElse: () => null);
+          if (positionInfo != null) {
+            rivalPositions
+                .add(LatLng(positionInfo.latitude, positionInfo.longitude));
+          }
+        }
+      }
       notifyListeners();
     });
   }
 
-  void playActivity() {
+  void playActivity({Activity rivalActivity}) {
+    if (rivalActivity != null) this.rivalActivity = rivalActivity;
     this.recordIsActive = true;
     this.recordIsPaused = false;
     _initTimer();
   }
 
+  bool hasRival() {
+    return this.rivalActivity != null;
+  }
+
   void stopActivity() {
     this.recordIsActive = false;
     this.recordIsPaused = false;
+    this.rivalActivity = null;
+    this.rivalPositions = [];
+    if (pickedActivity != null) pickedActivity.coordinates = [];
     _timer.cancel();
-    pickedActivity.coordinates = [];
     totalCaloriesBurn = 0;
     _activityTime = 0;
     notifyListeners();
