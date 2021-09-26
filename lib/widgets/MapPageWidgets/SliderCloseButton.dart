@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sportify_app/providers/TrackerInfo.dart';
+import 'package:sportify_app/providers/MapActivityInfo.dart';
 import 'package:provider/provider.dart';
 import 'package:slide_button/slide_button.dart';
 import 'package:sportify_app/shared/Colors.dart';
@@ -8,7 +8,7 @@ import 'package:sportify_app/shared/Labels.dart';
 class SliderCloseButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<TrackerInfo>(
+    return Consumer<MapActivityInfo>(
         builder: (ctx, info, _) =>
             info != null && info.recordIsActive && !info.recordIsPaused
                 ? Container(
@@ -37,7 +37,7 @@ class SliderCloseButton extends StatelessWidget {
                       initialSliderPercentage: 100.0,
                       onButtonSlide: (percentage) {
                         if (percentage < 0.1) {
-                          Provider.of<TrackerInfo>(context, listen: false)
+                          Provider.of<MapActivityInfo>(context, listen: false)
                               .pauseActivity();
                         }
                       },

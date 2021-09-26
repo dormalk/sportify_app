@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sportify_app/widgets/MapPageWidgets/AnimatedLayout.dart';
 import 'package:sportify_app/widgets/MapPageWidgets/SliderCloseButton.dart';
-import 'package:sportify_app/providers/TrackerInfo.dart';
+import 'package:sportify_app/providers/MapActivityInfo.dart';
 import 'package:provider/provider.dart';
 
 class MapPage extends StatelessWidget {
@@ -13,7 +13,7 @@ class MapPage extends StatelessWidget {
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          Consumer<TrackerInfo>(
+          Consumer<MapActivityInfo>(
             builder: (ctx, info, _) => AnimatedLayout(
               openMode: info?.recordIsActive,
             ),

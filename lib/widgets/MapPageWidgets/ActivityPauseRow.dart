@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sportify_app/providers/Activities.dart';
-import 'package:sportify_app/providers/TrackerInfo.dart';
+import 'package:sportify_app/providers/MapActivityInfo.dart';
 import 'package:sportify_app/shared/Colors.dart';
 
 class ActivityPauseRow extends StatefulWidget {
@@ -38,7 +38,7 @@ class _ActivityPauseRowState extends State<ActivityPauseRow>
   @override
   Widget build(BuildContext context) {
     bool recordIsPaused =
-        Provider.of<TrackerInfo>(context, listen: true).recordIsPaused;
+        Provider.of<MapActivityInfo>(context, listen: true).recordIsPaused;
     if (recordIsPaused) {
       _controller.forward();
     } else {
@@ -64,11 +64,11 @@ class _ActivityPauseRowState extends State<ActivityPauseRow>
             ),
             InkWell(
                 onTap: () {
-                  var trackerInfo =
-                      Provider.of<TrackerInfo>(context, listen: false);
+                  var mapActivityInfo =
+                      Provider.of<MapActivityInfo>(context, listen: false);
                   Provider.of<Activities>(context, listen: false)
-                      .addActivity(trackerInfo.pickedActivity);
-                  trackerInfo.stopActivity();
+                      .addActivity(mapActivityInfo.pickedActivity);
+                  mapActivityInfo.stopActivity();
                 },
                 child: Container(
                   padding: const EdgeInsets.all(16),
@@ -87,7 +87,7 @@ class _ActivityPauseRowState extends State<ActivityPauseRow>
                   color: Colors.grey[500],
                 ),
                 onPressed: () =>
-                    Provider.of<TrackerInfo>(context, listen: false)
+                    Provider.of<MapActivityInfo>(context, listen: false)
                         .stopActivity())
           ],
         ),

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sportify_app/modals/Activity.dart';
-import 'package:sportify_app/providers/TrackerInfo.dart';
+import 'package:sportify_app/providers/MapActivityInfo.dart';
 import 'package:provider/provider.dart';
 import 'package:sportify_app/shared/Colors.dart';
 
@@ -76,7 +76,7 @@ class _FloatingStartButtonState extends State<FloatingStartButton>
         elevation: 2,
         onPressed: () {
           _animationController.reverse().then((value) =>
-              Provider.of<TrackerInfo>(context, listen: false)
+              Provider.of<MapActivityInfo>(context, listen: false)
                   .setActivity(activityType)
                   .playActivity());
         },
@@ -104,7 +104,7 @@ class _FloatingStartButtonState extends State<FloatingStartButton>
 
   @override
   Widget build(BuildContext context) {
-    return !Provider.of<TrackerInfo>(context, listen: true).recordIsActive
+    return !Provider.of<MapActivityInfo>(context, listen: true).recordIsActive
         ? Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[

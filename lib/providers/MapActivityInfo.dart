@@ -21,7 +21,7 @@ String _parseToSrt(int val) {
 const double REPIRATORY_EXCHANGE_RATIO = 4.83;
 const double MASS_KG = 70;
 
-class TrackerInfo extends ChangeNotifier {
+class MapActivityInfo extends ChangeNotifier {
   StreamSubscription _positionStream;
   ActivityWithGeolocation pickedActivity;
   Position currentPosition;
@@ -32,6 +32,20 @@ class TrackerInfo extends ChangeNotifier {
   double totalCaloriesBurn = 0;
   Activity rivalActivity;
   List<LatLng> rivalPositions = [];
+  Map<MarkerId, Marker> _markers = {};
+  Map<MarkerId, Marker> get markers {
+    if (this.recordIsActive) {
+      return new Map.fromIterable(_markers.keys.where((k) {
+        if (hasRival()) {
+          return k.value == 'self' || k.value == rivalActivity.id;
+        } else {
+          return k.value == 'self';
+        }
+      }), key: (k) => k, value: (k) => _markers[k]);
+    } else {
+      return _markers;
+    }
+  }
 
   // ignore: non_constant_identifier_names
   double get _VO2 => (0.2 * speed) + 3.5;
@@ -72,7 +86,7 @@ class TrackerInfo extends ChangeNotifier {
     return polylinesMap;
   }
 
-  TrackerInfo() {
+  MapActivityInfo() {
     _initGeoLocatorStream();
   }
 
@@ -84,7 +98,7 @@ class TrackerInfo extends ChangeNotifier {
     });
   }
 
-  TrackerInfo setActivity(ActivityType activityType) {
+  MapActivityInfo setActivity(ActivityType activityType) {
     if (activityType == ActivityType.Run) {
       pickedActivity =
           RunActivity(ownerId: FirebaseAuth.instance.currentUser.uid);
@@ -138,6 +152,31 @@ class TrackerInfo extends ChangeNotifier {
 
   bool hasRival() {
     return this.rivalActivity != null;
+  }
+
+  void upsertMarker(
+      {String title,
+      LatLng pos,
+      double huv,
+      BitmapDescriptor icon,
+      Function onTap}) {
+    Marker existMarker;
+    if (_markers[MarkerId(title)] != null) {
+      existMarker = _markers[MarkerId(title)];
+    }
+    Marker m = Marker(
+        markerId: existMarker != null ? existMarker.markerId : MarkerId(title),
+        icon: existMarker != null
+            ? existMarker.icon
+            : icon == null
+                ? BitmapDescriptor.defaultMarkerWithHue(huv)
+                : icon,
+        position: existMarker != null ? existMarker.position : pos,
+        onTap: existMarker != null
+            ? existMarker.onTap
+            : () => onTap != null ? onTap(title) : null);
+    _markers[MarkerId(title)] = m;
+    notifyListeners();
   }
 
   void stopActivity() {

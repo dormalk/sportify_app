@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sportify_app/providers/TrackerInfo.dart';
+import 'package:sportify_app/providers/MapActivityInfo.dart';
 
 class BlinkedCol extends StatefulWidget {
   final Color fontColor = Colors.grey[700];
@@ -31,7 +31,7 @@ class _BlinkedColState extends State<BlinkedCol>
   @override
   Widget build(BuildContext context) {
     bool recordIsPaused =
-        Provider.of<TrackerInfo>(context, listen: true).recordIsPaused;
+        Provider.of<MapActivityInfo>(context, listen: true).recordIsPaused;
     if (recordIsPaused) {
       _animationController.repeat(reverse: true);
     } else {

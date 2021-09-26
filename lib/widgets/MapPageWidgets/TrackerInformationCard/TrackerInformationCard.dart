@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sportify_app/modals/Activity.dart';
 import 'package:provider/provider.dart';
-import 'package:sportify_app/providers/TrackerInfo.dart';
+import 'package:sportify_app/providers/MapActivityInfo.dart';
 import 'package:sportify_app/shared/Labels.dart';
 import '../ActivityPauseRow.dart';
 import 'BlinkedCol.dart';
@@ -31,7 +31,7 @@ class TrackerInformationCard extends StatelessWidget {
   }
 
   Widget _buildDurationCol() {
-    return Consumer<TrackerInfo>(
+    return Consumer<MapActivityInfo>(
       builder: (context, info, _) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -51,7 +51,7 @@ class TrackerInformationCard extends StatelessWidget {
   }
 
   Widget _buildSecondRowCardInfo() {
-    return Consumer<TrackerInfo>(
+    return Consumer<MapActivityInfo>(
       builder: (context, info, _) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

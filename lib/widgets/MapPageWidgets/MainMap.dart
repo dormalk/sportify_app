@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:sportify_app/modals/Activity.dart';
 import 'package:sportify_app/providers/Activities.dart';
-import 'package:sportify_app/providers/TrackerInfo.dart';
+import 'package:sportify_app/providers/MapActivityInfo.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -16,7 +16,6 @@ class MainMap extends StatefulWidget {
 
 class MainMapState extends State<MainMap> {
   GoogleMapController _googleMapController;
-  Map<MarkerId, Marker> _markers = <MarkerId, Marker>{};
 
   static Position _currentLocation;
 
@@ -29,7 +28,7 @@ class MainMapState extends State<MainMap> {
   }
 
   void _getActivities() async {
-    if (!Provider.of<TrackerInfo>(context, listen: false).recordIsActive) {
+    if (!Provider.of<MapActivityInfo>(context, listen: false).recordIsActive) {
       var boundaries = await _googleMapController.getVisibleRegion();
       Provider.of<Activities>(context, listen: false)
           .getActivities(boundaries.northeast, boundaries.southwest)
@@ -46,7 +45,7 @@ class MainMapState extends State<MainMap> {
         .activities
         .firstWhere((element) => element.id == id);
     if (rival != null) {
-      Provider.of<TrackerInfo>(context, listen: false)
+      Provider.of<MapActivityInfo>(context, listen: false)
           .playActivity(rivalActivity: rival);
     }
   }
@@ -56,7 +55,7 @@ class MainMapState extends State<MainMap> {
       BitmapDescriptor iconTemp =
           await convertImageFileToCustomBitmapDescriptor(
               await DefaultCacheManager().getSingleFile(activity.ownerImg));
-      this._upsertMarker(
+      Provider.of<MapActivityInfo>(context, listen: false).upsertMarker(
           title: activity.id,
           icon: iconTemp,
           pos: LatLng(activity.latitude, activity.longitude),
@@ -84,24 +83,6 @@ class MainMapState extends State<MainMap> {
     }
   }
 
-  void _upsertMarker(
-      {String title,
-      LatLng pos,
-      double huv,
-      BitmapDescriptor icon,
-      Function onTap}) {
-    Marker m = Marker(
-        markerId: MarkerId(title),
-        icon: icon == null ? BitmapDescriptor.defaultMarkerWithHue(huv) : icon,
-        position: pos,
-        onTap: () => onTap != null ? onTap(title) : null);
-    if (this.mounted) {
-      setState(() {
-        _markers[MarkerId(title)] = m;
-      });
-    }
-  }
-
   void _updateLocation(Position pos) {
     if (pos != null && _googleMapController != null) {
       _googleMapController
@@ -110,7 +91,7 @@ class MainMapState extends State<MainMap> {
         zoom: 17,
       )));
       if (_myIcon != null) {
-        _upsertMarker(
+        Provider.of<MapActivityInfo>(context, listen: false).upsertMarker(
             title: 'self',
             pos: LatLng(pos?.latitude, pos?.longitude),
             icon: _myIcon);
@@ -125,10 +106,7 @@ class MainMapState extends State<MainMap> {
 
   void _listen() {
     _updateLocation(
-        Provider.of<TrackerInfo>(context, listen: true).currentPosition);
-    if (Provider.of<TrackerInfo>(context, listen: true).recordIsActive) {
-      _markers.removeWhere((key, value) => key != 'self');
-    }
+        Provider.of<MapActivityInfo>(context, listen: true).currentPosition);
   }
 
   @override
@@ -144,10 +122,13 @@ class MainMapState extends State<MainMap> {
             myLocationButtonEnabled: false,
             zoomControlsEnabled: false,
             polylines: Set<Polyline>.of(
-                Provider.of<TrackerInfo>(context, listen: true)
+                Provider.of<MapActivityInfo>(context, listen: true)
                     .polylines
                     .values),
-            markers: Set<Marker>.of(_markers.values),
+            markers: Set<Marker>.of(
+                Provider.of<MapActivityInfo>(context, listen: true)
+                    .markers
+                    .values),
             onMapCreated: (controller) {
               _googleMapController = controller;
               _getActivities();
